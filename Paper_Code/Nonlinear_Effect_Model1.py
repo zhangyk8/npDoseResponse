@@ -10,7 +10,7 @@ and traditional regression adjustment estimator under the simple effect model 1.
 
 import numpy as np
 import pickle
-from Simp_Integral import DerivEffect, SimpIntEst, RoTBWLocalPoly, RegAdjust
+from NPDoseResponse import DerivEffect, IntegEst, RoTBWLocalPoly, RegAdjust
 import sys
 
 job_id = int(sys.argv[1])
@@ -38,7 +38,7 @@ if job_id == 1:
     theta_est = DerivEffect(Y, X, t_eval=t_qry, h_bar=None, kernT_bar="gaussian", 
                 h=h_cur, b=b_cur, degree=2, deriv_ord=1, kernT="epanechnikov", kernS="epanechnikov")
 
-    m_est = SimpIntEst(Y, X, t_eval=t_qry, h_bar=None, kernT_bar="gaussian", 
+    m_est = IntegEst(Y, X, t_eval=t_qry, h_bar=None, kernT_bar="gaussian", 
                     h=h_cur, b=b_cur, degree=2, deriv_ord=1, kernT="epanechnikov", kernS="epanechnikov")
 
     Y_RA = RegAdjust(Y, X, t_eval=t_qry, degree=2, deriv_ord=0, h=h_cur, b=h_cur, 
@@ -63,7 +63,7 @@ theta_est_boot = DerivEffect(Y_boot, X_boot, t_eval=t_qry, h_bar=None, kernT_bar
                              h=h_boot, b=b_boot, degree=2, deriv_ord=1, kernT="epanechnikov", 
                              kernS="epanechnikov")
 
-m_est_boot = SimpIntEst(Y_boot, X_boot, t_eval=t_qry, h_bar=None, kernT_bar="gaussian", 
+m_est_boot = IntegEst(Y_boot, X_boot, t_eval=t_qry, h_bar=None, kernT_bar="gaussian", 
                         h=h_boot, b=b_boot, degree=2, deriv_ord=1, kernT="epanechnikov", kernS="epanechnikov")
 
 Y_RA_boot = RegAdjust(Y_boot, X_boot, t_eval=t_qry, degree=2, deriv_ord=0, h=h_boot, b=b_boot, 
