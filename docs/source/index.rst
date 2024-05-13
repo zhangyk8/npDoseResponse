@@ -6,7 +6,7 @@ Welcome to the documentation of "NPDoseResponse"!
 A Preview into the Proposed Methodology
 ------------
 
-The proposed debiasing method introduces a novel debiased estimator for inferring the linear regression function with "missing at random (MAR)" outcomes. The key idea is to correct the bias of the Lasso solution [2]_ with complete-case data through a quadratic debiasing program with box constraints and construct the confidence interval based on the asymptotic normality of the debiased estimator.
+Existing methods in causal inference for continuous treatments often rely on the particularly strong positivity condition. We propose a novel integral estimator of the causal effects with continuous treatments (i.e., dose-response curves) without requiring the positivity condition. Our approach involves estimating the derivative function of the treatment effect on each observed data sample and integrating it to the treatment level of interest so as to address the bias resulting from the lack of positivity condition. Valid inferences on the dose-response curve and its derivative function can also be conducted with our proposed estimators via bootstrap methods.
 
 More details can be found in :doc:`Methodology <method>` and the reference paper [1]_.
 
