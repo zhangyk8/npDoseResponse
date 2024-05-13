@@ -16,12 +16,12 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information
 
-project = 'NPDoseResponse'
+project = 'npDoseResponse'
 copyright = '2024, Yikun Zhang and Yen-Chi Chen'
 author = 'Yikun Zhang'
 
 release = '0.1'
-version = '0.0.3'
+version = '0.0.1'
 
 # -- General configuration
 
