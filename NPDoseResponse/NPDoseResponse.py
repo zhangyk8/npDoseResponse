@@ -457,7 +457,8 @@ def LocalPolyReg1D(Y, X, h=None, x_eval=None, degree=3, deriv_ord=0, kernel="epa
 
 
 def RegAdjust(Y, X, t_eval=None, h=None, b=None, degree=2, deriv_ord=0, 
-              kernT="epanechnikov", kernS="epanechnikov"):
+              kernT="epanechnikov", kernS="epanechnikov", parallel=False, 
+              processes=20):
     '''
     Estimating the dose-response curve via simple integral estimator with linear interpolation approximation.
     
@@ -489,17 +490,32 @@ def RegAdjust(Y, X, t_eval=None, h=None, b=None, degree=2, deriv_ord=0,
         kernT, kernS: str
             The names of kernel functions for the treatment/exposure variable and confounding variables.
             (Default: "epanechnikov".)
+            
+        parallel: boolean
+            The indicator of whether the function should be parallel executed by
+            multi-processing. (Default: parallel=False.)
+            
+        processes: int
+            The number of processes for parallel execution. (Default: processes=20.)
     '''
     
     if t_eval is None: 
         t_eval = X[:,0].copy()
     
     n = X.shape[0]  ## Number of data points
-    beta_mat = np.zeros((n, t_eval.shape[0]))
-    for i in range(t_eval.shape[0]):
-        X_mat = np.concatenate([t_eval[i]*np.ones((n,1)), X[:,1:]], axis=1)
-        beta_mat[:,i] = LocalPolyReg(Y, X, x_eval=X_mat, degree=degree, deriv_ord=deriv_ord, 
-                                     h=h, b=b, kernT=kernT, kernS=kernS)
+    
+    if parallel:
+        with Pool(processes=processes) as pool:
+            part_fun = partial(LocalPolyReg_Fs, Y=Y, X=X, degree=degree, deriv_ord=deriv_ord, 
+                               h=h, b=b, kernT=kernT, kernS=kernS)
+            beta_mat = pool.map(part_fun, [np.concatenate([t_eval[i]*np.ones((n,1)), X[:,1:]], axis=1) for i in range(t_eval.shape[0])])
+            beta_mat = np.concatenate(beta_mat, axis=0).reshape(t_eval.shape[0], n).T
+    else:
+        beta_mat = np.zeros((n, t_eval.shape[0]))
+        for i in range(t_eval.shape[0]):
+            X_mat = np.concatenate([t_eval[i]*np.ones((n,1)), X[:,1:]], axis=1)
+            beta_mat[:,i] = LocalPolyReg(Y, X, x_eval=X_mat, degree=degree, deriv_ord=deriv_ord, 
+                                         h=h, b=b, kernT=kernT, kernS=kernS)
     m_est = np.mean(beta_mat, axis=0)
     return m_est
 

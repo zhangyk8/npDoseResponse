@@ -1,13 +1,13 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@author: Yikun Zhang
-Last Editing: March 10, 2024
 
-This file contains the implementation of all the common kernel functions.
-"""
+# Author: Yikun Zhang
+# Last Editing: March 10, 2024
+
+# Description: This file contains the implementations of common kernel functions.
 
 import numpy as np
+
+#=======================================================================================#
 
 def rectangular(t):
     ind = (np.abs(t)<=1)
