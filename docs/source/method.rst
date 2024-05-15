@@ -1,6 +1,9 @@
 Methodology
 ===========
 
+Model Setup
+------------
+
 Consider a random sample :math:`\{(Y_i,T_i,\textbf{S}_i)\}_{i=1}^n \subset \mathbb{R}\times \mathbb{R} \times \mathbb{R}^d` generated from the following model:
 
 .. math::
@@ -24,6 +27,10 @@ Given the above identification formula, one traditional method for estimating th
     \hat{m}_{RA}(t)  = \frac{1}{n}\sum_{i=1}^n \hat{\mu}(t,\textbf{S}_i),
 
 where :math:`\hat{\mu}(t,\bm{s})` is any consistent estimator of the conditional mean outcome function :math:`\mu(t,\bm{s})`. However, when the positivity condition does not hold, the regression adjustment estimator will be unstable and even inconsistent. This is because without the positivity condition, the joint density :math:`p(t,\textbf{S}_i)=p(t|\textbf{S}_i)\cdot p_S(\textbf{S}_i)` could be closer to 0 for some :math:`i=1,...,n`.
+
+
+Key Insights and Proposed Estimators
+------------------------------------
 
 To bypass the strong positivity condition, we consider imposing the following key assumption:
 
@@ -70,6 +77,14 @@ This leads to our proposed localized derivative estimator of :math:`\theta(t)` a
     \hat{\theta}_C(t)= \frac{\sum_{i=1}^n \hat{\beta}_2(t,\textbf{S}_i) \cdot \bar{K}_T\left(\frac{T_i-t}{\hslash}\right)}{\sum_{j=1}^n \bar{K}_T\left(\frac{T_j-t}{\hslash}\right)},
 
 where :math:`\bar{K}_T:\mathbb{R}\to[0,\infty)` is a kernel function.
+
+
+Fast Computing Algorithm
+----------------------------
+
+
+Bootstrap Inference
+----------------------------
 
 
 References
