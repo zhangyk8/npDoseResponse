@@ -69,7 +69,7 @@ This leads to our proposed localized derivative estimator of :math:`\theta(t)` a
 
     \hat{\theta}_C(t)= \frac{\sum_{i=1}^n \hat{\beta}_2(t,\textbf{S}_i) \cdot \bar{K}_T\left(\frac{T_i-t}{\hslash}\right)}{\sum_{j=1}^n \bar{K}_T\left(\frac{T_j-t}{\hslash}\right)},
 
-where :math:`\bar{K}_T` is a kernel function.
+where :math:`\bar{K}_T:\mathbb{R}\to[0,\infty)` is a kernel function.
 
 
 References
