@@ -20,6 +20,7 @@ More details can be found in :doc:`Methodology <method>` and the reference paper
    :caption: Contents:
    
    installation
+   method
    api_reference
    
    
