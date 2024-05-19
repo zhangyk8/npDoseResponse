@@ -106,6 +106,31 @@ Let :math:`T_{(1)}\leq \cdots\leq T_{(n)}` be the order statistics of :math:`T_1
 Bootstrap Inference
 ----------------------------
 
+We consider conducting inference on the dose-response curve :math:`m(t)` and its derivative effect :math:`\theta(t)=m'(t)` via nonparametric bootstrap. Other bootstrap methods, including residual bootstrap and wild bootstrap, also work under some modified conditions.
+
+1. Compute the integral estimator :math:`\hat{m}_{\theta}(t)` and localized derivative estimator :math:`\hat{\theta}_C(t)` on the original data :math:`\{(Y_i,T_i,\bm{S}_i)\}_{i=1}^n`.
+
+2. Generate :math:`B` bootstrap samples :math:`\left\{\left(Y_i^{*(b)},T_i^{*(b)},\bm{S}_i^{*(b)}\right)\right\}_{i=1}^n, b=1,...,B` by sampling with replacement from the original data and compute the integral estimator :math:`\hat{m}_{\theta}^{*(b)}(t)` and localized derivative estimator :math:`\hat{\theta}_C^{*(b)}(t)` on each bootstrapped sample for :math:`b=1,...,B`.
+
+3. Let :math:`\alpha \in (0,1)` be a pre-specified significance level.
+
+    * For a pointwise inference at :math:`t_0\in \mathcal{T}`, we calculate the :math:`1-\alpha` quantiles :math:`\zeta_{1-\alpha}^*(t_0)` and :math:`\bar{\zeta}_{1-\alpha}^*(t_0)` of :math:`\{D_1(t_0),...,D_B(t_0)\}` and :math:`\{\bar{D}_1(t_0),...,\bar{D}_B(t_0)\}` respectively, where :math:`D_b(t_0) = \left|\hat{m}_{\theta}^{*(b)}(t_0) - \hat{m}_{\theta}(t_0)\right|` and :math:`\bar{D}_b(t_0) = \left|\hat{\theta}_C^{*(b)}(t_0) - \hat{\theta}_C(t_0)\right|` for :math:`b=1,...,B`.
+
+    * For an uniform inference on the entire dose-response curve :math:`m(t)` and its derivative :math:`\theta(t)`, we compute the :math:`1-\alpha` quantiles :math:`\xi_{1-\alpha}^*` and :math:`\bar{\xi}_{1-\alpha}^*` of :math:`\{D_{\sup,1},...,D_{\sup,B}\}` and :math:`\{\bar{D}_{\sup,1},...,\bar{D}_{\sup,B}\}` respectively, where :math:`D_{\sup,b} = \sup_{t\in \mathcal{T}}\left|\hat{m}_{\theta}^{*(b)}(t) - \hat{m}_{\theta}(t)\right|` and :math:`\bar{D}_{\sup,b} = \sup_{t\in \mathcal{T}}\left|\hat{\theta}_C^{*(b)}(t) - \hat{\theta}_C(t)\right|` for :math:`b=1,...,B`.
+
+4. Define the :math:`1-\alpha` confidence intervals for :math:`m(t_0)` and :math:`\theta(t_0)` as:
+
+.. math::
+
+    \left[\hat{m}_{\theta}(t_0) - \zeta_{1-\alpha}^*(t_0),\, \hat{m}_{\theta}(t_0) + \zeta_{1-\alpha}^*(t_0)\right] \; \text{ and } \; \left[\hat{\theta}_C(t_0) - \bar{\zeta}_{1-\alpha}^*(t_0),\, \hat{\theta}_C(t_0) + \bar{\zeta}_{1-\alpha}^*(t_0)\right]
+
+respectively, as well as the simultaneous :math:`1-\alpha` confidence bands as:
+
+.. math::
+
+	\left[\hat{m}_{\theta}(t) - \xi_{1-\alpha}^*,\, \hat{m}_{\theta}(t) + \xi_{1-\alpha}^*\right] \quad \text{ and } \quad \left[\hat{\theta}_C(t) - \bar{\xi}_{1-\alpha}^*,\, \hat{\theta}_C(t) + \bar{\xi}_{1-\alpha}^*\right]
+
+for every :math:`t\in \mathcal{T}`.
 
 References
 ----------
