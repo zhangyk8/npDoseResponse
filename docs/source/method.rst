@@ -26,7 +26,7 @@ Given the above identification formula, one traditional method for estimating th
 
     \hat{m}_{RA}(t)  = \frac{1}{n}\sum_{i=1}^n \hat{\mu}(t,\textbf{S}_i),
 
-where :math:`\hat{\mu}(t,\bm{s})` is any consistent estimator of the conditional mean outcome function :math:`\mu(t,\bm{s})`. However, when the positivity condition does not hold, the regression adjustment estimator will be unstable and even inconsistent. This is because without the positivity condition, the joint density :math:`p(t,\textbf{S}_i)=p(t|\textbf{S}_i)\cdot p_S(\textbf{S}_i)` could be closer to 0 for some :math:`i=1,...,n`.
+where :math:`\hat{\mu}(t,\textbf{s})` is any consistent estimator of the conditional mean outcome function :math:`\mu(t,\textbf{s})`. However, when the positivity condition does not hold, the regression adjustment estimator will be unstable and even inconsistent. This is because without the positivity condition, the joint density :math:`p(t,\textbf{S}_i)=p(t|\textbf{S}_i)\cdot p_S(\textbf{S}_i)` could be closer to 0 for some :math:`i=1,...,n`.
 
 
 Key Insights and Proposed Estimators
