@@ -26,6 +26,6 @@ More details can be found in :doc:`Methodology <method>` and the reference paper
    
 References
 ----------
-.. [1] Yikun Zhang, Yen-Chi Chen, Alexander Giessing (2024+) Nonparametric Inference on Dose-Response Curves Without the Positivity Condition.
+.. [1] Yikun Zhang, Yen-Chi Chen, Alexander Giessing (2024+) Nonparametric Inference on Dose-Response Curves Without the Positivity Condition. *arXiv:2405.09003*
 
 
