@@ -67,7 +67,12 @@ Based on the above three insights, we thus propose an *integral estimator* of th
 
 where :math:`\hat{\theta}_C(t)` is a consistent estimator of :math:`\theta_C(t) = \mathbb{E}\left[\frac{\partial}{\partial t}\mu(t,\textbf{S})\big|T=t\right] = \int \frac{\partial}{\partial t} \mu(t,\textbf{s})\, d\mathrm{P}(\textbf{s}|t)`. The estimator :math:`\hat{\theta}_C(t)` of the derivative effect :math:`\theta(t)` includes two nuisance functions:
 
-* We fit the partial derivative :math:`\beta_2(t,\textbf{s})=\frac{\partial}{\partial t} \mu(t,\textbf{s})` of the conditional mean outcome function by (partial) local polynomial regression;
+* We fit the partial derivative :math:`\beta_2(t,\textbf{s})=\frac{\partial}{\partial t} \mu(t,\textbf{s})` of the conditional mean outcome function by (partial) local polynomial regression. In particular, :math:`\hat{\beta}_2(t,\textbf{s})` is the second coordinate of the solution to the following weighted least square problem:
+
+.. math::
+
+    \left(\hat{\textbf{\beta}}(t,\textbf{s}), \hat{\textbf{\alpha}}(t,\textbf{s}) \right)^T
+
 
 * We estimate the conditional cumulative distribution function (CDF) :math:`\mathrm{P}(\textbf{s}|t)` via Nadaraya-Watson conditional CDF estimator.
 
