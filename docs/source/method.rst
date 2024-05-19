@@ -67,27 +67,41 @@ Based on the above three insights, we thus propose an *integral estimator* of th
 
 where :math:`\hat{\theta}_C(t)` is a consistent estimator of :math:`\theta_C(t) = \mathbb{E}\left[\frac{\partial}{\partial t}\mu(t,\textbf{S})\big|T=t\right] = \int \frac{\partial}{\partial t} \mu(t,\textbf{s})\, d\mathrm{P}(\textbf{s}|t)`. The estimator :math:`\hat{\theta}_C(t)` of the derivative effect :math:`\theta(t)` includes two nuisance functions:
 
-* We fit the partial derivative :math:`\beta_2(t,\textbf{s})=\frac{\partial}{\partial t} \mu(t,\textbf{s})` of the conditional mean outcome function by (partial) local polynomial regression. In particular, :math:`\hat{\beta}_2(t,\textbf{s})` is the second coordinate of the solution to the following weighted least square problem:
+* We fit the partial derivative :math:`\beta_2(t,\mathbf{s})=\frac{\partial}{\partial t} \mu(t,\mathbf{s})` of the conditional mean outcome function by (partial) local polynomial regression. In particular, :math:`\hat{\beta}_2(t,\mathbf{s})` is the second coordinate of the solution to the following weighted least square problem:
 
 .. math::
 
-    \left(\hat{\textbf{\beta}}(t,\textbf{s}), \hat{\textbf{\alpha}}(t,\textbf{s}) \right)^T
+    \left(\hat{\mathbf{\beta}}(t,\textbf{s}), \hat{\mathbf{\alpha}}(t,\textbf{s}) \right)^T = \arg\min_{(\mathbf{\beta},\mathbf{\alpha})^T \in \mathbb{R}^{q+1}\times \mathbb{R}^d} \sum_{i=1}^n \left[Y_i-\sum_{j=0}^q\beta_j (T_i-t)^q - \sum_{\ell=1}^d\alpha_{\ell}(S_{i,\ell}-s_{\ell})\right]^2 K_T\left(\frac{T_i-t}{h}\right)K_S\left(\frac{\mathbf{S}_i-\mathbf{s}}{\mathbf{b}}\right),
 
+where :math:`K_T:\mathbb{R}\to [0,\infty), K_S:\mathbb{R}^d \to [0,\infty)` are two kernel functions and :math:`h>0,\mathbf{b}\in \mathbb{R}_+^d` be their corresponding smoothing bandwidth parameters.
 
 * We estimate the conditional cumulative distribution function (CDF) :math:`\mathrm{P}(\textbf{s}|t)` via Nadaraya-Watson conditional CDF estimator.
 
-This leads to our proposed localized derivative estimator of :math:`\theta(t)` as:
+.. math::
+
+    \hat P(\mathbf{s}|t) = \frac{\sum_{i=1}^n  \mathbb{1}_{\{\mathbf{S}_i\leq \mathbf{s}, |T_i-t|\leq \hslash\}} }{\sum_{j=1}^n \mathbb{1}_{\{|T_j-t|\leq \hslash\}}},
+
+where :math:`\bar{K}_T:\mathbb{R}\to[0,\infty)` is a kernel function and :math:`\hslash>0` is the associated smoothing bandwidth parameter that needs not be the same as the bandwidth parameter :math:`h>0`.
+
+This leads to our proposed *localized derivative estimator* of :math:`\theta(t)` as:
 
 .. math::
 
-    \hat{\theta}_C(t)= \frac{\sum_{i=1}^n \hat{\beta}_2(t,\textbf{S}_i) \cdot \bar{K}_T\left(\frac{T_i-t}{\hslash}\right)}{\sum_{j=1}^n \bar{K}_T\left(\frac{T_j-t}{\hslash}\right)},
-
-where :math:`\bar{K}_T:\mathbb{R}\to[0,\infty)` is a kernel function.
+    \hat{\theta}_C(t)= \frac{\sum_{i=1}^n \hat{\beta}_2(t,\textbf{S}_i) \cdot \bar{K}_T\left(\frac{T_i-t}{\hslash}\right)}{\sum_{j=1}^n \bar{K}_T\left(\frac{T_j-t}{\hslash}\right)}.
 
 
 Fast Computing Algorithm
 ----------------------------
 
+Let :math:`T_{(1)}\leq \cdots\leq T_{(n)}` be the order statistics of :math:`T_1,..., T_n` and let :math:`\Delta_j = T_{(j+1)} - T_{(j)}` for :math:`j=1,..., n-1` be the consecutive difference. 
+
+* We can approximate :math:`\hat{m}_{\theta}(T_{(j)})` for :math:`j=1,...,n` as:
+
+.. math::
+
+    \hat{m}_{\theta}(T_{(j)}) \approx \frac{1}{n}\sum_{i=1}^n Y_i + \frac{1}{n}\sum_{i=1}^{n-1} \Delta_i \left[ i \cdot \hat{\theta}_C(T_{(i)}) \mathbb{1}_{ \{ i < j \} } - (n-i)\cdot \hat{\theta}_C(T_{(i+1)}) \mathbb{1}_{\{ i\geq j \} } \right].
+
+* To evaluate :math:`\hat{m}_{\theta}(t)` for any arbitrary :math:`t`, we conduct a linear interpolation between :math:`\hat{m}_{\theta}(T_{(j)})` and :math:`\hat{m}_{\theta}(T_{(j+1)})` on the interval :math:`t\in\left[T_{(j)}, T_{(j+1)}\right]`.
 
 Bootstrap Inference
 ----------------------------
