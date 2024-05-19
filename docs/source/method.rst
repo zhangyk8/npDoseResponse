@@ -108,9 +108,9 @@ Bootstrap Inference
 
 We consider conducting inference on the dose-response curve :math:`m(t)` and its derivative effect :math:`\theta(t)=m'(t)` via nonparametric bootstrap. Other bootstrap methods, including residual bootstrap and wild bootstrap, also work under some modified conditions.
 
-1. Compute the integral estimator :math:`\hat{m}_{\theta}(t)` and localized derivative estimator :math:`\hat{\theta}_C(t)` on the original data :math:`\{(Y_i,T_i,\bm{S}_i)\}_{i=1}^n`.
+1. Compute the integral estimator :math:`\hat{m}_{\theta}(t)` and localized derivative estimator :math:`\hat{\theta}_C(t)` on the original data :math:`\{(Y_i,T_i,\mathbf{S}_i)\}_{i=1}^n`.
 
-2. Generate :math:`B` bootstrap samples :math:`\left\{\left(Y_i^{*(b)},T_i^{*(b)},\bm{S}_i^{*(b)}\right)\right\}_{i=1}^n, b=1,...,B` by sampling with replacement from the original data and compute the integral estimator :math:`\hat{m}_{\theta}^{*(b)}(t)` and localized derivative estimator :math:`\hat{\theta}_C^{*(b)}(t)` on each bootstrapped sample for :math:`b=1,...,B`.
+2. Generate :math:`B` bootstrap samples :math:`\left\{\left(Y_i^{*(b)},T_i^{*(b)},\mathbf{S}_i^{*(b)}\right)\right\}_{i=1}^n, b=1,...,B` by sampling with replacement from the original data and compute the integral estimator :math:`\hat{m}_{\theta}^{*(b)}(t)` and localized derivative estimator :math:`\hat{\theta}_C^{*(b)}(t)` on each bootstrapped sample for :math:`b=1,...,B`.
 
 3. Let :math:`\alpha \in (0,1)` be a pre-specified significance level.
 
