@@ -122,7 +122,7 @@ We consider conducting inference on the dose-response curve :math:`m(t)` and its
 
 .. math::
 
-    \left[\hat{m}_{\theta}(t_0) - \zeta_{1-\alpha}^*(t_0),\, \hat{m}_{\theta}(t_0) + \zeta_{1-\alpha}^*(t_0)\right] \; \text{ and } \; \left[\hat{\theta}_C(t_0) - \bar{\zeta}_{1-\alpha}^*(t_0),\, \hat{\theta}_C(t_0) + \bar{\zeta}_{1-\alpha}^*(t_0)\right]
+    \left[\hat{m}_{\theta}(t_0) - \zeta_{1-\alpha}^*(t_0),\, \hat{m}_{\theta}(t_0) + \zeta_{1-\alpha}^*(t_0)\right] \quad \text{ and } \quad \left[\hat{\theta}_C(t_0) - \bar{\zeta}_{1-\alpha}^*(t_0),\, \hat{\theta}_C(t_0) + \bar{\zeta}_{1-\alpha}^*(t_0)\right]
 
 respectively, as well as the simultaneous :math:`1-\alpha` confidence bands as:
 
@@ -130,7 +130,8 @@ respectively, as well as the simultaneous :math:`1-\alpha` confidence bands as:
 
 	\left[\hat{m}_{\theta}(t) - \xi_{1-\alpha}^*,\, \hat{m}_{\theta}(t) + \xi_{1-\alpha}^*\right] \quad \text{ and } \quad \left[\hat{\theta}_C(t) - \bar{\xi}_{1-\alpha}^*,\, \hat{\theta}_C(t) + \bar{\xi}_{1-\alpha}^*\right]
 
-for every :math:`t\in \mathcal{T}`.
+for every :math:`t\in \mathcal{T}`, where :math:`\mathcal{T}` is the support of the marginal density of :math:`T`.
+
 
 References
 ----------
