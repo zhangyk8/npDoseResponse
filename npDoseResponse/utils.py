@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Author: Yikun Zhang
-# Last Editing: May 12, 2024
+# Last Editing: May 19, 2024
 
 # Description: This script contains the utility functions for the main functions 
 # in our package.
@@ -16,7 +16,6 @@ def RoTBWLocalPoly(Y, X, kernT="epanechnikov", kernS="epanechnikov", C_h=7, C_b=
     '''
     Compute the rule-of-thumb bandwidth selector in Eq.(A1) of 
     Yang and Tschernig (1999).
-    
     
     Parameters
     ----------
@@ -80,7 +79,8 @@ def RoTBWLocalPoly(Y, X, kernT="epanechnikov", kernS="epanechnikov", C_h=7, C_b=
     return h, b
 
 
-def HatMatrix(X, degree=2, deriv_ord=1, h=None, b=None, kernT="epanechnikov", kernS="epanechnikov"):
+def HatMatrix(X, degree=2, deriv_ord=1, h=None, b=None, print_bw=True, 
+              kernT="epanechnikov", kernS="epanechnikov"):
     '''
     Compute the hat matrix of the local polynomial regression when it is viewed 
     as a linear smoother.
@@ -103,6 +103,10 @@ def HatMatrix(X, degree=2, deriv_ord=1, h=None, b=None, kernT="epanechnikov", ke
             The bandwidth parameters for the treatment/exposure variable and 
             confounding variables. 
             
+        print_bw: boolean
+            The indicator of whether the current bandwidth parameters should be
+            printed to the console. (Default: print_bw=True.)
+            
         kernT, kernS: str
             The names of kernel functions for the treatment/exposure variable 
             and confounding variables. (Default: "epanechnikov".)
@@ -116,8 +120,9 @@ def HatMatrix(X, degree=2, deriv_ord=1, h=None, b=None, kernT="epanechnikov", ke
     d = X.shape[1] - 1
     x_eval = X.copy()
     
-    print("The current bandwidth for treament variable in the local polynomial regression is "+ str(h) + ".\n")
-    print("The current bandwidth for confounding variables in the local polynomial regression is "+ str(b) + ".\n")
+    if print_bw:
+        print("The current bandwidth for treament variable in the local polynomial regression is "+ str(h) + ".\n")
+        print("The current bandwidth for confounding variables in the local polynomial regression is "+ str(b) + ".\n")
     
     kernT, sigmaK_sq, K_sq = KernelRetrieval(kernT)
     kernS, sigmaK_sq, K_sq = KernelRetrieval(kernS)

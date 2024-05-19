@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Author: Yikun Zhang
-# Last Editing: May 12, 2024
+# Last Editing: May 19, 2024
 
 # Description: This script contains the implementation of local polynomial regression 
 # as well as our proposed integral estimator and its localized derivative estimator.
@@ -15,7 +15,7 @@ from .utils import *
 #=======================================================================================#
 
 def LocalPolyReg(Y, X, x_eval=None, degree=2, deriv_ord=1, h=None, b=None, C_h=7, 
-                 C_b=3, kernT="epanechnikov", kernS="epanechnikov", 
+                 C_b=3, print_bw=True, kernT="epanechnikov", kernS="epanechnikov", 
                  h_lst=np.linspace(0.5, 15, 30), b_lst=np.linspace(0.2, 6, 30)):
     '''
     (Partial) Local polynomial regression for estimating the conditional mean outcome 
@@ -50,6 +50,10 @@ def LocalPolyReg(Y, X, x_eval=None, degree=2, deriv_ord=1, h=None, b=None, C_h=7
             confounding variables. (Default: h=None, b=None. Then, the rule-of-thumb 
             bandwidth selector in Eq.(A1) of Yang and Tschernig (1999) is used 
             with additional scaling factors C_h and C_b, respectively.)
+            
+        print_bw: boolean
+            The indicator of whether the current bandwidth parameters should be
+            printed to the console. (Default: print_bw=True.)
             
         kernT, kernS: str
             The names of kernel functions for the treatment/exposure variable 
@@ -90,9 +94,10 @@ def LocalPolyReg(Y, X, x_eval=None, degree=2, deriv_ord=1, h=None, b=None, C_h=7
         b_opt = b_lst[argmin_ind[1]]
         h = h_opt
         b = b_opt
-        
-    print("The current bandwidth for treament variable in the local polynomial regression is "+ str(h) + ".\n")
-    print("The current bandwidth for confounding variables in the local polynomial regression is "+ str(b) + ".\n")
+    
+    if print_bw:
+        print("The current bandwidth for treament variable in the local polynomial regression is "+ str(h) + ".\n")
+        print("The current bandwidth for confounding variables in the local polynomial regression is "+ str(b) + ".\n")
     
     Y_est = LocalPolyRegMain(Y, X, x_eval=x_eval, degree=degree, deriv_ord=deriv_ord, 
                              h=h, b=b, kernT=kernT, kernS=kernS)
@@ -166,7 +171,7 @@ def LocalPolyRegMain(Y, X, x_eval=None, degree=2, deriv_ord=0, h=None, b=None,
 
 
 def LocalPolyReg_Fs(x_eval, Y, X, degree=2, deriv_ord=1, h=None, b=None, C_h=7, 
-                    C_b=3, kernT="epanechnikov", kernS="epanechnikov", 
+                    C_b=3, print_bw=True, kernT="epanechnikov", kernS="epanechnikov", 
                     h_lst=np.linspace(0.5, 15, 30), b_lst=np.linspace(0.2, 6, 30)):
     '''
     (Partial) Local polynomial regression for estimating the conditional mean outcome 
@@ -201,6 +206,10 @@ def LocalPolyReg_Fs(x_eval, Y, X, degree=2, deriv_ord=1, h=None, b=None, C_h=7,
             confounding variables. (Default: h=None, b=None. Then, the rule-of-thumb 
             bandwidth selector in Eq.(A1) of Yang and Tschernig (1999) is used
             with additional scaling factors C_h and C_b, respectively.)
+            
+        print_bw: boolean
+            The indicator of whether the current bandwidth parameters should be
+            printed to the console. (Default: print_bw=True.)
             
         kernT, kernS: str
             The names of kernel functions for the treatment/exposure variable 
@@ -241,9 +250,10 @@ def LocalPolyReg_Fs(x_eval, Y, X, degree=2, deriv_ord=1, h=None, b=None, C_h=7,
         b_opt = b_lst[argmin_ind[1]]
         h = h_opt
         b = b_opt
-        
-    print("The current bandwidth for treament variable in the local polynomial regression is "+ str(h) + ".\n")
-    print("The current bandwidth for confounding variables in the local polynomial regression is "+ str(b) + ".\n")
+    
+    if print_bw:
+        print("The current bandwidth for treament variable in the local polynomial regression is "+ str(h) + ".\n")
+        print("The current bandwidth for confounding variables in the local polynomial regression is "+ str(b) + ".\n")
     
     Y_est = LocalPolyRegMain(Y, X, x_eval=x_eval, degree=degree, deriv_ord=deriv_ord, 
                              h=h, b=b, kernT=kernT, kernS=kernS)
@@ -251,7 +261,7 @@ def LocalPolyReg_Fs(x_eval, Y, X, degree=2, deriv_ord=1, h=None, b=None, C_h=7,
 
 
 def DerivEffect(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None, 
-                C_h=7, C_b=3, degree=2, deriv_ord=1, kernT="epanechnikov", 
+                C_h=7, C_b=3, print_bw=True, degree=2, deriv_ord=1, kernT="epanechnikov", 
                 kernS="epanechnikov", parallel=False, processes=20):
     '''
     Estimating the derivative of the dose-response curve via Nadaraya-Watson 
@@ -285,6 +295,10 @@ def DerivEffect(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=N
             confounding variables. (Default: h=None, b=None. Then, the rule-of-thumb 
             bandwidth selector in Eq.(A1) of Yang and Tschernig (1999) is used
             with additional scaling factors C_h and C_b, respectively.)
+            
+        print_bw: boolean
+            The indicator of whether the current bandwidth parameters should be
+            printed to the console. (Default: print_bw=True.)
             
         degree: int
             Degree of local polynomials. (Default: degree=2.)
@@ -330,7 +344,7 @@ def DerivEffect(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=N
     if parallel:
         with Pool(processes=processes) as pool:
             part_fun = partial(LocalPolyReg_Fs, Y=Y, X=X, degree=degree, deriv_ord=deriv_ord, 
-                               h=h, b=b, C_h=C_h, C_b=C_b, kernT=kernT, kernS=kernS)
+                               h=h, b=b, C_h=C_h, C_b=C_b, print_bw=print_bw, kernT=kernT, kernS=kernS)
             beta_mat = pool.map(part_fun, [np.concatenate([t_eval[i]*np.ones((n,1)), X[:,1:]], axis=1) for i in range(t_eval.shape[0])])
             beta_mat = np.concatenate(beta_mat, axis=0).reshape(t_eval.shape[0], n).T
     else:
@@ -338,14 +352,15 @@ def DerivEffect(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=N
         for i in range(t_eval.shape[0]):
             X_mat = np.concatenate([t_eval[i]*np.ones((n,1)), X[:,1:]], axis=1)
             beta_mat[:,i] = LocalPolyReg(Y, X, x_eval=X_mat, degree=degree, deriv_ord=deriv_ord, 
-                                         h=h, b=b, C_h=C_h, C_b=C_b, kernT=kernT, kernS=kernS)
+                                         h=h, b=b, C_h=C_h, C_b=C_b, print_bw=print_bw, 
+                                         kernT=kernT, kernS=kernS)
     
     theta_C = np.sum(weight_mat * beta_mat, axis=0)
     return theta_C
 
 
 def IntegEst(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None, 
-             C_h=7, C_b=3, degree=2, deriv_ord=1, kernT="epanechnikov", 
+             C_h=7, C_b=3, print_bw=True, degree=2, deriv_ord=1, kernT="epanechnikov", 
              kernS="epanechnikov", parallel=False, processes=20):
     '''
     Estimating the dose-response curve via our integral estimator with linear 
@@ -380,6 +395,10 @@ def IntegEst(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None
             bandwidth selector in Eq.(A1) of Yang and Tschernig (1999) is used
             with additional scaling factors C_h and C_b, respectively.)
             
+        print_bw: boolean
+            The indicator of whether the current bandwidth parameters should be
+            printed to the console. (Default: print_bw=True.)
+            
         degree: int
             Degree of local polynomials. (Default: degree=2.)
             
@@ -413,9 +432,9 @@ def IntegEst(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None
     
     # Compute theta_C at the order statistics of T
     theta_est = DerivEffect(Y, X, t_eval=T_sort, h_bar=h_bar, kernT_bar=kernT_bar, 
-                            h=h, b=b, C_h=C_h, C_b=C_b, degree=degree, 
-                            deriv_ord=deriv_ord, kernT=kernT, kernS=kernS,
-                            parallel=parallel, processes=processes)
+                            h=h, b=b, C_h=C_h, C_b=C_b, print_bw=print_bw, 
+                            degree=degree, deriv_ord=deriv_ord, kernT=kernT, 
+                            kernS=kernS, parallel=parallel, processes=processes)
     T_delta = T_sort[1:] - T_sort[:(n-1)]
     
     int_mat_up = np.ones((n,)) * (T_delta*(np.arange(1, n)*theta_est[:(n-1)])).reshape(-1,1)
@@ -429,7 +448,7 @@ def IntegEst(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None
     return m_est
 
 
-def LocalPolyReg1D(Y, X, h=None, x_eval=None, degree=3, deriv_ord=0, kernel="epanechnikov"):
+def LocalPolyReg1D(Y, X, h=None, x_eval=None, degree=2, deriv_ord=0, kernel="epanechnikov"):
     '''
     Local polynomial regression in one dimension.
     
@@ -501,9 +520,9 @@ def LocalPolyReg1D(Y, X, h=None, x_eval=None, degree=3, deriv_ord=0, kernel="epa
 
 
 
-def RegAdjust(Y, X, t_eval=None, h=None, b=None, C_h=7, C_b=3, degree=2, deriv_ord=0, 
-              kernT="epanechnikov", kernS="epanechnikov", parallel=False, 
-              processes=20):
+def RegAdjust(Y, X, t_eval=None, h=None, b=None, C_h=7, C_b=3, print_bw=True, 
+              degree=2, deriv_ord=0, kernT="epanechnikov", kernS="epanechnikov", 
+              parallel=False, processes=20):
     '''
     Estimating the dose-response curve via simple integral estimator with linear 
     interpolation approximation.
@@ -526,6 +545,10 @@ def RegAdjust(Y, X, t_eval=None, h=None, b=None, C_h=7, C_b=3, degree=2, deriv_o
             confounding variables. (Default: h=None, b=None. Then, the rule-of-thumb 
             bandwidth selector in Eq.(A1) of Yang and Tschernig (1999) is used
             with additional scaling factors C_h and C_b, respectively.)
+            
+        print_bw: boolean
+            The indicator of whether the current bandwidth parameters should be
+            printed to the console. (Default: print_bw=True.)
             
         degree: int
             Degree of local polynomials. (Default: degree=2.)
@@ -559,8 +582,9 @@ def RegAdjust(Y, X, t_eval=None, h=None, b=None, C_h=7, C_b=3, degree=2, deriv_o
     
     if parallel:
         with Pool(processes=processes) as pool:
-            part_fun = partial(LocalPolyReg_Fs, Y=Y, X=X, degree=degree, deriv_ord=deriv_ord, 
-                               h=h, b=b, C_h=C_h, C_b=C_b, kernT=kernT, kernS=kernS)
+            part_fun = partial(LocalPolyReg_Fs, Y=Y, X=X, degree=degree, 
+                               deriv_ord=deriv_ord, h=h, b=b, C_h=C_h, C_b=C_b, 
+                               print_bw=print_bw, kernT=kernT, kernS=kernS)
             beta_mat = pool.map(part_fun, [np.concatenate([t_eval[i]*np.ones((n,1)), X[:,1:]], axis=1) for i in range(t_eval.shape[0])])
             beta_mat = np.concatenate(beta_mat, axis=0).reshape(t_eval.shape[0], n).T
     else:
@@ -569,7 +593,7 @@ def RegAdjust(Y, X, t_eval=None, h=None, b=None, C_h=7, C_b=3, degree=2, deriv_o
             X_mat = np.concatenate([t_eval[i]*np.ones((n,1)), X[:,1:]], axis=1)
             beta_mat[:,i] = LocalPolyReg(Y, X, x_eval=X_mat, degree=degree, 
                                          deriv_ord=deriv_ord, h=h, b=b, C_h=C_h, 
-                                         C_b=C_b, kernT=kernT, kernS=kernS)
+                                         C_b=C_b, print_bw=print_bw, kernT=kernT, kernS=kernS)
     m_est = np.mean(beta_mat, axis=0)
     return m_est
 
