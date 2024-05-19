@@ -30,6 +30,18 @@ def RoTBWLocalPoly(Y, X, kernT="epanechnikov", kernS="epanechnikov", C_h=7, C_b=
         kernT, kernS: str
             The names of kernel functions for the treatment/exposure variable 
             and confounding variables. (Default: "epanechnikov".)
+            
+        C_h,C_b: float
+            The scaling factors for the rule-of-thumb bandwidth parameters. 
+            (Default: C_h=7, C_b=3.)
+    
+    Return
+    ----------
+        h: float
+            The rule-of-thumb bandwidth parameter for the treatment/exposure variable.
+            
+        b: (d,)-array
+            The rule-of-thumb bandwidth vector for the confounding variables.
     '''
     n = X.shape[0]  ## Number of data points
     d = X.shape[1] - 1
@@ -73,7 +85,6 @@ def HatMatrix(X, degree=2, deriv_ord=1, h=None, b=None, kernT="epanechnikov", ke
     Compute the hat matrix of the local polynomial regression when it is viewed 
     as a linear smoother.
     
-    
     Parameters
     ----------
         X: (n,d+1)-array
@@ -89,11 +100,17 @@ def HatMatrix(X, degree=2, deriv_ord=1, h=None, b=None, kernT="epanechnikov", ke
             conditional mean outcome function with respect to the treatment variable.)
             
         h,b: float
-            The bandwidth parameters for the treatment/exposure variable and confounding variables. 
+            The bandwidth parameters for the treatment/exposure variable and 
+            confounding variables. 
             
         kernT, kernS: str
-            The names of kernel functions for the treatment/exposure variable and confounding variables.
-            (Default: "epanechnikov".)
+            The names of kernel functions for the treatment/exposure variable 
+            and confounding variables. (Default: "epanechnikov".)
+            
+    Return
+    ----------
+        hat_mat: (n,n)-array
+            The hat matrix.
     '''
     n = X.shape[0]  ## Number of data points
     d = X.shape[1] - 1
