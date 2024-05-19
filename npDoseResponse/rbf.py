@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Author: Yikun Zhang
-# Last Editing: March 10, 2024
+# Last Editing: March 19, 2024
 
 # Description: This file contains the implementations of common kernel functions.
 
@@ -10,57 +10,213 @@ import numpy as np
 #=======================================================================================#
 
 def rectangular(t):
+    '''
+    Rectangular/uniform kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     ind = (np.abs(t)<=1)
     res = np.abs(0.5*ind)
     return res
 
 def triangular(t):
+    '''
+    Triangular kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     ind = (np.abs(t)<=1)
     res = np.abs((1-np.abs(t))*ind)
     return res
 
 def epanechnikov(t):
+    '''
+    Epanechnikov kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     ind = (np.abs(t)<=1)
     res = np.abs(0.75*(1-t**2)*ind)
     return res
 
 def biweight(t):
+    '''
+    Biweight/quartic kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     ind = (np.abs(t)<=1)
     res = np.abs(((15/16)*(1-t**2)**2)*ind)
     return res
 
 def triweight(t):
+    '''
+    Triweight kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     ind = (np.abs(t)<=1)
     res = np.abs((35/32)*(1-t**2)**3*ind)
     return res
 
 def tricube(t):
+    '''
+    Tricube kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     ind = (np.abs(t)<=1)
     res = np.abs((70/81)*(1-np.abs(t)**3)**3*ind)
     return res
 
 def gaussian(t):
+    '''
+    Gaussian kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     res = (1/np.sqrt(2*np.pi))*np.exp(-0.5*t**2)
     return res
 
 def bigaussian(t):
+    '''
+    Bigaussian kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     res = (2/np.sqrt(np.pi))*(t**2)*np.exp(-t**2)
     return res
 
 def cosine(t):
+    '''
+    Cosine kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     ind = (np.abs(t)<=1)
     res = np.abs((np.pi/4)*np.cos(np.pi*t/2)*ind)
     return res
 
 def logistic(t):
+    '''
+    Logistic kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     res = 1/(np.exp(t)+2+np.exp(-t))
     return res
 
 def sigmoid(t):
+    '''
+    Sigmoid kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     res = (2/np.pi)/(np.exp(t)+np.exp(-t))
     return res
 
 def silverman(t):
+    '''
+    Silverman kernel function.
+
+    Parameters
+    ----------
+        t: float or (n,)-array
+            The query points.
+
+    Return
+    -------
+        res: float or (n,)-array
+            The kernel values evaluated at the query points.
+    '''
     res = 0.5*np.exp(-np.abs(t)/np.sqrt(2))*np.sin(np.abs(t)/np.sqrt(2)+np.pi/4)
     return res
 
