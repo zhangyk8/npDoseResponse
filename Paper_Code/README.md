@@ -33,7 +33,7 @@ We apply our proposed estimators to analyzing the relationship between the PM2.5
 
 ## References
 
-<a name="npdoseresponse">[1]</a> Y. Zhang, Y.-C. Chen, A. Giessing (2024+) Nonparametric Inference on Dose-Response Curves Without the Positivity Condition.
+<a name="npdoseresponse">[1]</a> Y. Zhang, Y.-C. Chen, and A. Giessing (2024+) Nonparametric Inference on Dose-Response Curves Without the Positivity Condition [arXiv:2405.09003](https://arxiv.org/abs/2405.09003).
 
 <a name="data">[2]</a> L. Wyatt, G. Peterson, T. Wade, L. Neas, and A. Rappold (2020). Annual PM2.5 and cardiovascular mortality rate data: Trends modified by county socioeconomic status in 2,132 US counties. _Data in Brief_ **30** 105--318.
 
