@@ -91,4 +91,4 @@ Bootstrap Inference
 References
 ----------
 
-.. [1] Yikun Zhang, Alexander Giessing, Yen-Chi Chen (2024+). Nonparametric Inference on Dose-Response Curves Without the Positivity Condition.
+.. [1] Yikun Zhang, Yen-Chi Chen, Alexander Giessing (2024+). Nonparametric Inference on Dose-Response Curves Without the Positivity Condition.
