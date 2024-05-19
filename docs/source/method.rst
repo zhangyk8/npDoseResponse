@@ -36,7 +36,8 @@ To bypass the strong positivity condition, we consider imposing the following ke
 
 .. math::
 
-    \mathbb{E}\left[\mu(T,\textbf{S})\right]=\mathbb{E}\left[m(T)\right] \quad \text{ and } \quad \theta(t)=\mathbb{E}\left[\frac{\partial}{\partial t} \mu(t,\textbf{S})\right] = \mathbb{E}\left[\frac{\partial}{\partial t} \mu(t,\textbf{S}) \Big|T=t\right].
+    \mathbb{E}\left[\mu(T,\textbf{S})\right]=\mathbb{E}\left[m(T)\right] \quad \text{ and } \quad \theta(t)=\mathbb{E}\left[\frac{\partial}{\partial t} \mu(t,\textbf{S})\right] 
+= \mathbb{E}\left[\frac{\partial}{\partial t} \mu(t,\textbf{S}) \Big|T=t\right].
 
 It can be verified that the additive confounding model with :math:`\mu(T,\textbf{S})=m(T)+\eta(\textbf{S})` satisfies the above two equalities.
 
@@ -52,7 +53,7 @@ Under the above assumption, we construct our estimator of :math:`m(t)` from thre
 
     m(t) = m(T) + \int_{\tilde{t}=T}^{\tilde{t}=t} m'(\tilde{t})\, d\tilde{t} = m(T)+ \int_{\tilde{t}=T}^{\tilde{t}=t} \theta(\tilde{t})\, d\tilde{t}.
 
-Taking the expectation on both sides of the above equality reveals that
+Under our key assumption, we can take the expectation on both sides of the above equality to obtain that
 
 .. math::
 
@@ -64,7 +65,7 @@ Based on the above three insights, we thus propose an *integral estimator* of th
 
     \hat{m}_\theta(t) = \frac{1}{n}\sum_{i=1}^n \left[Y_i + \int_{\tilde{t}=T_i}^{\tilde{t}=t} \hat{\theta}_C(\tilde{t})\, d\tilde{t} \right],
 
-where :math:`\hat{\theta}_C(t)` is a consistent estimator of :math:`\theta_C(t) = \mathbb{E}\left[\frac{\partial}{\partial t}\mu(t,\textbf{S})\big|T=t\right] = \int \frac{\partial}{\partial t} \mu(t,\textbf{s})\, d\mathrm{P}(\textbf{s}|t)`. The estimator :math:`\hat{\theta}_C(t)` of the derivative effect :math:`\theta(t)` includes two nuistance functions:
+where :math:`\hat{\theta}_C(t)` is a consistent estimator of :math:`\theta_C(t) = \mathbb{E}\left[\frac{\partial}{\partial t}\mu(t,\textbf{S})\big|T=t\right] = \int \frac{\partial}{\partial t} \mu(t,\textbf{s})\, d\mathrm{P}(\textbf{s}|t)`. The estimator :math:`\hat{\theta}_C(t)` of the derivative effect :math:`\theta(t)` includes two nuisance functions:
 
 * We fit the partial derivative :math:`\beta_2(t,\textbf{s})=\frac{\partial}{\partial t} \mu(t,\textbf{s})` of the conditional mean outcome function by (partial) local polynomial regression;
 
