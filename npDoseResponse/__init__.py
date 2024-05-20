@@ -3,4 +3,4 @@
 from .npDoseResponse import IntegEst, DerivEffect, IntegEstBoot, DerivEffectBoot, LocalPolyReg, LocalPolyReg1D, RegAdjust
 
 __author__ = "Yikun Zhang"
-__version__ = "0.0.6"
+__version__ = "0.0.7"
