@@ -334,6 +334,7 @@ def DerivEffect(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=N
     if h_bar is None:
         # Apply the Silverman's rule of thumb bandwidth in Chen et al.(2016).
         h_bar = (4/(d+2))**(1/(d+4))*(n**(-1/(d+4)))*np.std(X[:,0])
+    if print_bw:
         print("The current bandwidth for the conditional CDF estimator is "+ str(h_bar) + ".\n")
     
     kernT_bar, sigmaK_sq, K_sq = KernelRetrieval(kernT_bar)
@@ -359,13 +360,103 @@ def DerivEffect(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=N
     return theta_C
 
 
+def DerivEffectBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, 
+                    b=None, C_h=7, C_b=3, print_bw=True, degree=2, deriv_ord=1, 
+                    kernT="epanechnikov", kernS="epanechnikov", boot_num=500, 
+                    parallel=False, processes=20):
+    '''
+    Conduct inference on the derivative of the dose-response curve via Nadaraya-Watson 
+    conditional CDF estimator and nonparametric bootstrap.
+    
+    Parameters
+    ----------
+        Y: (n,)-array
+            The outcomes of n observations.
+            
+        X: (n,d+1)-array
+            The first column of X is the treatment/exposure variable, while 
+            the other d columns are confounding variables of n observations.
+            
+        t_eval: (m,)-array
+            The coordinates of the m evaluation points. (Default: t_eval=None. 
+            Then, t_eval=X[:,0], which consists of the observed treatment variables.)
+            
+        h_bar: float
+            The bandwidth parameters for the Nadaraya-Watson conditional CDF estimator. 
+            (Default: h_bar=None. Then, the Silverman's rule of thumb is applied. 
+            See Chen et al.(2016) for details.)
+            
+        kernT_bar: str
+            The name of the kernel function for Nadaraya-Watson conditional CDF 
+            estimator. (Default: "gaussian".)
+            
+        h,b: float
+            The bandwidth parameters for the treatment/exposure variable and 
+            confounding variables. (Default: h=None, b=None. Then, the rule-of-thumb 
+            bandwidth selector in Eq.(A1) of Yang and Tschernig (1999) is used
+            with additional scaling factors C_h and C_b, respectively.)
+            
+        print_bw: boolean
+            The indicator of whether the current bandwidth parameters should be
+            printed to the console. (Default: print_bw=True.)
+            
+        degree: int
+            Degree of local polynomials. (Default: degree=2.)
+            
+        deriv_ord: int
+            The order of the estimated derivative the conditional mean outcome function. 
+            (Default: deriv_ord=1. Then, it estimates the partial derivative of the 
+            conditional mean outcome function with respect to the treatment variable.)
+            
+        kernT, kernS: str
+            The names of kernel functions for the treatment/exposure variable 
+            and confounding variables. (Default: "epanechnikov".)
+            
+        boot_num: int
+            The number of bootstrapping times. (Default: bootstrap_num=500.) 
+            
+        parallel: boolean
+            The indicator of whether the function should be parallel executed by
+            multi-processing. (Default: parallel=False.)
+            
+        processes: int
+            The number of processes for parallel execution. (Default: processes=20.)
+    
+    Return
+    ----------
+        theta_C_boot: (m,)-array
+            The estimated derivatives of the dose-response curve on bootstrap samples 
+            evaluated at points "t_eval".
+    '''
+    
+    if t_eval is None: 
+        t_eval = X[:,0].copy()
+        
+    n = X.shape[0]  ## Number of data points
+    
+    theta_C_boot = np.zeros((boot_num, t_eval.shape[0]))
+    b = 0
+    while b < boot_num:
+        ind = np.random.choice(n, size=n, replace=True)
+        X_boot = X[ind,:]
+        Y_boot = Y[ind]
+        theta_C_boot[b,:] = DerivEffect(Y_boot, X_boot, t_eval=t_eval, h_bar=h_bar, 
+                                   kernT_bar=kernT_bar, h=h, b=b, C_h=C_h, C_b=C_b, 
+                                   print_bw=print_bw, degree=degree, deriv_ord=deriv_ord, 
+                                   kernT=kernT, kernS=kernS, parallel=parallel, 
+                                   processes=processes)
+        if np.sum(np.isnan(theta_C_boot[b,:])) == 0:
+            b += 1
+        
+    return theta_C_boot
+
+
 def IntegEst(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None, 
              C_h=7, C_b=3, print_bw=True, degree=2, deriv_ord=1, kernT="epanechnikov", 
              kernS="epanechnikov", parallel=False, processes=20):
     '''
     Estimating the dose-response curve via our integral estimator with linear 
     interpolation approximation.
-    
     
     Parameters
     ----------
@@ -445,7 +536,96 @@ def IntegEst(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None
     m_samp = np.mean(Y) + np.sum(int_mat_up - int_mat_down, axis=0)/n
     
     m_est = np.interp(t_eval, T_sort, m_samp)
+            
     return m_est
+
+
+def IntegEstBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None, 
+             C_h=7, C_b=3, print_bw=True, degree=2, deriv_ord=1, kernT="epanechnikov", 
+             kernS="epanechnikov", boot_num=500, parallel=False, processes=20):
+    '''
+    Conduct inference on the dose-response curve via our integral estimator and
+    nonparametric bootstrap.
+    
+    Parameters
+    ----------
+        Y: (n,)-array
+            The outcomes of n observations.
+            
+        X: (n,d+1)-array
+            The first column of X is the treatment/exposure variable, while 
+            the other d columns are confounding variables of n observations.
+            
+        t_eval: (m,)-array
+            The coordinates of the m evaluation points. (Default: t_eval=None. 
+            Then, t_eval=X[:,0].)
+            
+        h_bar: float
+            The bandwidth parameters for the Nadaraya-Watson conditional CDF estimator. 
+            (Default: h_bar=None. Then, the Silverman's rule of thumb is applied. 
+            See Chen et al.(2016) for details.)
+            
+        kernT_bar: str
+            The name of the kernel function for Nadaraya-Watson conditional CDF estimator.
+            (Default: "gaussian".)
+            
+        h,b: float
+            The bandwidth parameters for the treatment/exposure variable and 
+            confounding variables. (Default: h=None, b=None. Then, the rule-of-thumb 
+            bandwidth selector in Eq.(A1) of Yang and Tschernig (1999) is used
+            with additional scaling factors C_h and C_b, respectively.)
+            
+        print_bw: boolean
+            The indicator of whether the current bandwidth parameters should be
+            printed to the console. (Default: print_bw=True.)
+            
+        degree: int
+            Degree of local polynomials. (Default: degree=2.)
+            
+        deriv_ord: int
+            The order of the estimated derivative the conditional mean outcome function. 
+            (Default: deriv_ord=1. Then, it estimates the partial derivative of the 
+            conditional mean outcome function with respect to the treatment variable.)
+            
+        kernT, kernS: str
+            The names of kernel functions for the treatment/exposure variable 
+            and confounding variables. (Default: "epanechnikov".)
+            
+        boot_num: int
+            The number of bootstrapping times. (Default: bootstrap_num=500.) 
+        
+        parallel: boolean
+            The indicator of whether the function should be parallel executed by
+            multi-processing. (Default: parallel=False.)
+            
+        processes: int
+            The number of processes for parallel execution. (Default: processes=20.)
+            
+    Return
+    ----------
+        m_est_boot: (boot_num, m)-array
+            The estimated dose-response curves (or their derivatives) on the bootstrap 
+            samples evaluated at points "t_eval".
+    '''
+    
+    if t_eval is None: 
+        t_eval = X[:,0].copy()
+    
+    n = X.shape[0]  ## Number of data points
+    m_est_boot = np.zeros((boot_num, t_eval.shape[0]))
+    b = 0
+    while b < boot_num:
+        ind = np.random.choice(n, size=n, replace=True)
+        X_boot = X[ind,:]
+        Y_boot = Y[ind]
+        m_est_boot[b,:] = IntegEst(Y_boot, X_boot, t_eval=t_eval, h_bar=h_bar, 
+                                   kernT_bar=kernT_bar, h=h, b=b, C_h=C_h, C_b=C_b, 
+                                   print_bw=print_bw, degree=degree, deriv_ord=deriv_ord, 
+                                   kernT=kernT, kernS=kernS, parallel=parallel, 
+                                   processes=processes)
+        if np.sum(np.isnan(m_est_boot[b,:])) == 0:
+            b += 1
+    return m_est_boot
 
 
 def LocalPolyReg1D(Y, X, h=None, x_eval=None, degree=2, deriv_ord=0, kernel="epanechnikov"):
@@ -572,7 +752,8 @@ def RegAdjust(Y, X, t_eval=None, h=None, b=None, C_h=7, C_b=3, print_bw=True,
     Return
     ----------
         m_est: (m,)-array
-            The estimated dose-response curve evaluated at points "t_eval".
+            The estimated dose-response curve (or its derivative) evaluated 
+            at points "t_eval".
     '''
     
     if t_eval is None: 
@@ -595,5 +776,6 @@ def RegAdjust(Y, X, t_eval=None, h=None, b=None, C_h=7, C_b=3, print_bw=True,
                                          deriv_ord=deriv_ord, h=h, b=b, C_h=C_h, 
                                          C_b=C_b, print_bw=print_bw, kernT=kernT, kernS=kernS)
     m_est = np.mean(beta_mat, axis=0)
+    
     return m_est
 
