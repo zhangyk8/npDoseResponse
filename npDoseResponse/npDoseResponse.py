@@ -104,7 +104,7 @@ def LocalPolyReg(Y, X, x_eval=None, degree=2, deriv_ord=1, h=None, b=None, C_h=7
     return Y_est
 
 
-def LocalPolyRegMain(Y, X, x_eval=None, degree=2, deriv_ord=0, h=None, b=None, 
+def LocalPolyRegMain(Y, X, x_eval=None, degree=2, deriv_ord=1, h=None, b=None, 
                      kernT="epanechnikov", kernS="epanechnikov"):
     '''
     Main function for computing the local polynomial regression.
@@ -360,9 +360,10 @@ def DerivEffect(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=N
     return theta_C
 
 
-def DerivEffectBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, 
-                    b=None, C_h=7, C_b=3, print_bw=True, degree=2, deriv_ord=1, 
-                    kernT="epanechnikov", kernS="epanechnikov", boot_num=500, 
+def DerivEffectBoot(Y, X, t_eval=None, boot_num=500, alpha=0.95, h_bar=None, 
+                    kernT_bar="gaussian", h=None, b=None, C_h=7, C_b=3, 
+                    print_bw=True, degree=2, deriv_ord=1, 
+                    kernT="epanechnikov", kernS="epanechnikov", 
                     parallel=False, processes=20):
     '''
     Conduct inference on the derivative of the dose-response curve via Nadaraya-Watson 
@@ -380,6 +381,13 @@ def DerivEffectBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None,
         t_eval: (m,)-array
             The coordinates of the m evaluation points. (Default: t_eval=None. 
             Then, t_eval=X[:,0], which consists of the observed treatment variables.)
+            
+        boot_num: int
+            The number of bootstrapping times. (Default: bootstrap_num=500.) 
+            
+        alpha: float
+            The confidence level of both the uniform confidence band and pointwise
+            confidence interval. (Default: alpha=0.95.)
             
         h_bar: float
             The bandwidth parameters for the Nadaraya-Watson conditional CDF estimator. 
@@ -412,9 +420,6 @@ def DerivEffectBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None,
             The names of kernel functions for the treatment/exposure variable 
             and confounding variables. (Default: "epanechnikov".)
             
-        boot_num: int
-            The number of bootstrapping times. (Default: bootstrap_num=500.) 
-            
         parallel: boolean
             The indicator of whether the function should be parallel executed by
             multi-processing. (Default: parallel=False.)
@@ -424,15 +429,30 @@ def DerivEffectBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None,
     
     Return
     ----------
+        theta_C: (m,)-array
+            The estimated derivative of the dose-response curve evaluated at 
+            points "t_eval".
+            
         theta_C_boot: (m,)-array
             The estimated derivatives of the dose-response curve on bootstrap samples 
             evaluated at points "t_eval".
+            
+        theta_alpha: float
+            The width of the uniform confidence band.
+            
+        theta_alpha_var: (m,)-array
+            The widths of the pointwise confidence bands at evaluation points "t_eval".
     '''
     
     if t_eval is None: 
         t_eval = X[:,0].copy()
         
     n = X.shape[0]  ## Number of data points
+    
+    theta_est = DerivEffect(Y, X, t_eval=t_eval, h_bar=h_bar, kernT_bar=kernT_bar, 
+                            h=h, b=b, C_h=C_h, C_b=C_b, print_bw=print_bw, 
+                            degree=degree, deriv_ord=deriv_ord, 
+                            kernT=kernT, kernS=kernS, parallel=parallel, processes=processes)
     
     theta_C_boot = np.zeros((boot_num, t_eval.shape[0]))
     b = 0
@@ -447,8 +467,16 @@ def DerivEffectBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None,
                                    processes=processes)
         if np.sum(np.isnan(theta_C_boot[b,:])) == 0:
             b += 1
-        
-    return theta_C_boot
+    
+    # Compute the 95% uniform confidence bands
+    theta_boot_sup = np.max(np.abs(theta_C_boot - theta_est), axis=1)
+    theta_alpha = np.quantile(theta_boot_sup, 0.95)
+
+    # Compute the 95% pointwise confidence intervals
+    theta_boot_abs = np.abs(theta_C_boot - theta_est)
+    theta_alpha_var = np.quantile(theta_boot_abs, 0.95, axis=0)
+    
+    return theta_est, theta_C_boot, theta_alpha, theta_alpha_var
 
 
 def IntegEst(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None, 
@@ -540,9 +568,10 @@ def IntegEst(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None
     return m_est
 
 
-def IntegEstBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=None, 
-             C_h=7, C_b=3, print_bw=True, degree=2, deriv_ord=1, kernT="epanechnikov", 
-             kernS="epanechnikov", boot_num=500, parallel=False, processes=20):
+def IntegEstBoot(Y, X, t_eval=None, boot_num=500, alpha=0.95, h_bar=None, 
+                 kernT_bar="gaussian", h=None, b=None, C_h=7, C_b=3, print_bw=True, 
+                 degree=2, deriv_ord=1, kernT="epanechnikov", kernS="epanechnikov", 
+                 parallel=False, processes=20):
     '''
     Conduct inference on the dose-response curve via our integral estimator and
     nonparametric bootstrap.
@@ -559,6 +588,13 @@ def IntegEstBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=
         t_eval: (m,)-array
             The coordinates of the m evaluation points. (Default: t_eval=None. 
             Then, t_eval=X[:,0].)
+            
+        boot_num: int
+            The number of bootstrapping times. (Default: bootstrap_num=500.) 
+        
+        alpha: float
+            The confidence level of both the uniform confidence band and pointwise
+            confidence interval. (Default: alpha=0.95.)
             
         h_bar: float
             The bandwidth parameters for the Nadaraya-Watson conditional CDF estimator. 
@@ -590,9 +626,6 @@ def IntegEstBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=
         kernT, kernS: str
             The names of kernel functions for the treatment/exposure variable 
             and confounding variables. (Default: "epanechnikov".)
-            
-        boot_num: int
-            The number of bootstrapping times. (Default: bootstrap_num=500.) 
         
         parallel: boolean
             The indicator of whether the function should be parallel executed by
@@ -603,13 +636,27 @@ def IntegEstBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=
             
     Return
     ----------
+        m_est: (m,)-array
+            The estimated dose-response curve evaluated at points "t_eval".
+            
         m_est_boot: (boot_num, m)-array
             The estimated dose-response curves (or their derivatives) on the bootstrap 
             samples evaluated at points "t_eval".
+            
+        m_alpha: float
+            The width of the uniform confidence band.
+            
+        m_alpha_var: (m,)-array
+            The widths of the pointwise confidence bands at evaluation points "t_eval".
     '''
     
     if t_eval is None: 
         t_eval = X[:,0].copy()
+        
+    m_est = IntegEst(Y, X, t_eval=t_eval, h_bar=h_bar, kernT_bar=kernT_bar, 
+                     h=h, b=b, C_h=C_h, C_b=C_b, print_bw=print_bw, degree=degree, 
+                     deriv_ord=deriv_ord, kernT=kernT, kernS=kernS, parallel=parallel, 
+                     processes=processes)
     
     n = X.shape[0]  ## Number of data points
     m_est_boot = np.zeros((boot_num, t_eval.shape[0]))
@@ -625,7 +672,15 @@ def IntegEstBoot(Y, X, t_eval=None, h_bar=None, kernT_bar="gaussian", h=None, b=
                                    processes=processes)
         if np.sum(np.isnan(m_est_boot[b,:])) == 0:
             b += 1
-    return m_est_boot
+            
+    # Compute the 95% uniform confidence bands
+    m_boot_sup = np.max(np.abs(m_est_boot - m_est), axis=1)
+    m_alpha = np.quantile(m_boot_sup, 0.95)
+
+    # Compute the 95% pointwise confidence intervals
+    m_boot_abs = np.abs(m_est_boot - m_est)
+    m_alpha_var = np.quantile(m_boot_abs, 0.95, axis=0)
+    return m_est, m_est_boot, m_alpha, m_alpha_var
 
 
 def LocalPolyReg1D(Y, X, h=None, x_eval=None, degree=2, deriv_ord=0, kernel="epanechnikov"):
