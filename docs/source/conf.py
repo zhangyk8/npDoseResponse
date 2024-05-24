@@ -21,7 +21,7 @@ copyright = '2024, Yikun Zhang and Yen-Chi Chen'
 author = 'Yikun Zhang'
 
 release = '0.1'
-version = '0.0.8'
+version = '0.0.9'
 
 # -- General configuration
 
