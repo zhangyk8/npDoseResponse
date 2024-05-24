@@ -9,6 +9,7 @@ This package implements the proposed integral estimator and a localized derivati
 
 * Free software: MIT license
 * Python Package Documentation: [https://npdoseresponse.readthedocs.io](https://npdoseresponse.readthedocs.io).
+* We also provide an R package [npDoseResponse](https://github.com/zhangyk8/npDoseResponse/tree/main/R_Package), though the Python package will be numerically stabler.
 
 Installation guide
 --------
