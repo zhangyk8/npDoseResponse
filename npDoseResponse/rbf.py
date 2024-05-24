@@ -234,7 +234,7 @@ def KernelRetrieval(name):
     Return
     --------
         kern_func: python function
-            The final estimated weights by our debiasing program.
+            The kernel function.
             
         sigmaK_sq: float
             The second moment of the kernel function.
