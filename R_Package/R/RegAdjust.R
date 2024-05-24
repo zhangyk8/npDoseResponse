@@ -39,6 +39,34 @@
 #' Applications. Chapman & Hall/CRC.}
 #' @keywords regression polynomial local (partial)
 #'
+#' @examples
+#' \donttest{
+#'   library(parallel)
+#'   set.seed(123)
+#'   n <- 300
+#'
+#'   S2 <- cbind(2 * runif(n) - 1, 2 * runif(n) - 1)
+#'   Z2 <- 4 * S2[, 1] + S2[, 2]
+#'   E2 <- 0.2 * runif(n) - 0.1
+#'   T2 <- cos(pi * Z2^3) + Z2 / 4 + E2
+#'   Y2 <- T2^2 + T2 + 10 * Z2 + rnorm(n, mean = 0, sd = 1)
+#'   X2 <- cbind(T2, S2)
+#'
+#'   t_qry2 = seq(min(T2) + 0.01, max(T2) - 0.01, length.out = 100)
+#'   chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
+#'   if (nzchar(chk) && chk == "TRUE") {
+#'     # use 2 cores in CRAN/Travis/AppVeyor
+#'     num_workers <- 2L
+#'   } else {
+#'     # use all cores in devtools::test()
+#'     num_workers <- parallel::detectCores()
+#'   }
+#'   Y_RA2 = RegAdjust(Y2, X2, t_eval = t_qry2, h = NULL, b = NULL, C_h = 7, C_b = 3,
+#'                     print_bw = FALSE, degree = 2, deriv_ord = 0,
+#'                     kernT = "epanechnikov", kernS = "epanechnikov",
+#'                     parallel = TRUE, cores = num_workers)
+#' }
+#'
 #' @export
 #' @importFrom parallel mclapply
 #'

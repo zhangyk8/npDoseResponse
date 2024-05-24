@@ -2,7 +2,7 @@
 % Please edit documentation in R/KernelRetrieval.R
 \name{KernelRetrieval}
 \alias{KernelRetrieval}
-\title{The helper function for retrieving the kernel function and its associated statistics.}
+\title{The helper function for retrieving a kernel function and its associated statistics.}
 \usage{
 KernelRetrieval(name)
 }
@@ -16,8 +16,17 @@ A list that contains three elements.
 \item{K_sq}{The variance of the kernel function.}
 }
 \description{
-This function helps retrieve the kernel function, its second moment,
+This function helps retrieve the commonly used kernel function, its second moment,
 and its variance based on the name.
+}
+\examples{
+\donttest{
+  kernel_result <- KernelRetrieval("epanechnikov")
+  kernT <- kernel_result$KernFunc
+  sigmaK_sq <- kernel_result$sigmaK_sq
+  K_sq <- kernel_result$K_sq
+}
+
 }
 \author{
 Yikun Zhang, \email{yikunzhang@foxmail.com}
