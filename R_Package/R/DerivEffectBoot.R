@@ -71,7 +71,7 @@
 #'   }
 #' }
 #' \dontrun{
-#'   theta_est2 = DerivEffectBoot(Y2, X2, t_eval = t_qry2, boot_num = 500, alpha = 0.95,
+#'   theta_boot2 = DerivEffectBoot(Y2, X2, t_eval = t_qry2, boot_num = 500, alpha = 0.95,
 #'                                h_bar = NULL, kernT_bar = "gaussian", h = NULL,
 #'                                b = NULL, C_h = 7, C_b = 3, print_bw = FALSE,
 #'                                degree = 2, deriv_ord = 1, kernT = "epanechnikov",
