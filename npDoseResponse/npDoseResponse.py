@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Author: Yikun Zhang
-# Last Editing: May 19, 2024
+# Last Editing: May 23, 2024
 
 # Description: This script contains the implementation of local polynomial regression 
 # as well as our proposed integral estimator and its localized derivative estimator.
@@ -468,13 +468,13 @@ def DerivEffectBoot(Y, X, t_eval=None, boot_num=500, alpha=0.95, h_bar=None,
         if np.sum(np.isnan(theta_C_boot[b,:])) == 0:
             b += 1
     
-    # Compute the 95% uniform confidence bands
+    # Compute the alpha% uniform confidence bands
     theta_boot_sup = np.max(np.abs(theta_C_boot - theta_est), axis=1)
-    theta_alpha = np.quantile(theta_boot_sup, 0.95)
+    theta_alpha = np.quantile(theta_boot_sup, alpha)
 
-    # Compute the 95% pointwise confidence intervals
+    # Compute the alpha% pointwise confidence intervals
     theta_boot_abs = np.abs(theta_C_boot - theta_est)
-    theta_alpha_var = np.quantile(theta_boot_abs, 0.95, axis=0)
+    theta_alpha_var = np.quantile(theta_boot_abs, alpha, axis=0)
     
     return theta_est, theta_C_boot, theta_alpha, theta_alpha_var
 
@@ -673,13 +673,13 @@ def IntegEstBoot(Y, X, t_eval=None, boot_num=500, alpha=0.95, h_bar=None,
         if np.sum(np.isnan(m_est_boot[b,:])) == 0:
             b += 1
             
-    # Compute the 95% uniform confidence bands
+    # Compute the alpha% uniform confidence bands
     m_boot_sup = np.max(np.abs(m_est_boot - m_est), axis=1)
-    m_alpha = np.quantile(m_boot_sup, 0.95)
+    m_alpha = np.quantile(m_boot_sup, alpha)
 
-    # Compute the 95% pointwise confidence intervals
+    # Compute the alpha% pointwise confidence intervals
     m_boot_abs = np.abs(m_est_boot - m_est)
-    m_alpha_var = np.quantile(m_boot_abs, 0.95, axis=0)
+    m_alpha_var = np.quantile(m_boot_abs, alpha, axis=0)
     return m_est, m_est_boot, m_alpha, m_alpha_var
 
 
