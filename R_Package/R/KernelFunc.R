@@ -1,3 +1,18 @@
+#' The commonly used kernel functions.
+#'
+#' This file implements all the commonly used kernel functions.
+#'
+#' @param t The query point or numeric vector.
+#'
+#' @return The kernel values evaluated at the query points.
+#'
+#' @author Yikun Zhang, \email{yikunzhang@@foxmail.com}
+#'
+#' @keywords functions kernel common
+#'
+#' @export
+#'
+
 rectangular <- function(t) {
   ind <- (abs(t) <= 1)
   res <- abs(0.5 * ind)
