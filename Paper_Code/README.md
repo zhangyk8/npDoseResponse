@@ -13,12 +13,12 @@ We consider three different model settings for our simulation studies. For each 
 One can easily see that the conditional density <img src="https://latex.codecogs.com/svg.latex?&space;p(t|s)"/> is 0 within the gray regions of **Fig 1**, suggesting that the positivity condition fails. The simulation on this single confounder model is conducted in the Python script `Single_Confounder_Model.py`.
 
 - **Linear Confounding Model:**
-<img src="https://latex.codecogs.com/svg.latex?\large&space;Y=T+6S_1+6S_2+\epsilon,\quad\,T=2S_1+S_2+E,\quad\,\textbf{S}=(S_1,S_2)\sim\text{Uniform}[-1,1]\subset\mathbb{R},\quad\,E\sim\text{Uniform}[-1,1]^2,\quad\text{and}\quad\epsilon\sim\mathcal{N}(0,1)."/>
+<img src="https://latex.codecogs.com/svg.latex?\large&space;Y=T+6S_1+6S_2+\epsilon,\quad\,T=2S_1+S_2+E,\quad\,\textbf{S}=(S_1,S_2)\sim\text{Uniform}[-1,1]^2\subset\mathbb{R}^2,\quad\,E\sim\text{Uniform}[-0.5,0.5],\quad\text{and}\quad\epsilon\sim\mathcal{N}(0,1)."/>
 
 The simulation on this linear confounding model is conducted in the Python script `Linear_Confounding_Model.py`.
 
 - **Nonlinear Confounding Model:**
-<img src="https://latex.codecogs.com/svg.latex?\large&space;Y=T^2+T+10Z+\epsilon,\quad\,T=\cos\left(\pi\,Z^3\right)+\frac{Z}{4}+E,\quad\,Z=4S_1+S_2,\quad\textbf{S}=(S_1,S_2)\sim\text{Uniform}[-1,1]\subset\mathbb{R},\quad\,E\sim\text{Uniform}[-1,1]^2,\quad\text{and}\quad\epsilon\sim\mathcal{N}(0,1)."/>
+<img src="https://latex.codecogs.com/svg.latex?\large&space;Y=T^2+T+10Z+\epsilon,\quad\,T=\cos\left(\pi\,Z^3\right)+\frac{Z}{4}+E,\quad\,Z=4S_1+S_2,\quad\textbf{S}=(S_1,S_2)\sim\text{Uniform}[-1,1]^2\subset\mathbb{R}^2,\quad\,E\sim\text{Uniform}[-0.1,0.1],\quad\text{and}\quad\epsilon\sim\mathcal{N}(0,1)."/>
 
 The simulation on this linear confounding model is conducted in the Python script `Nonlinear_Effect_Model1.py`.
 
