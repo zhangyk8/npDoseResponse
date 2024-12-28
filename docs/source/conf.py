@@ -17,11 +17,11 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information
 
 project = 'npDoseResponse'
-copyright = '2024, Yikun Zhang and Yen-Chi Chen'
+copyright = '2024, Yikun Zhang'
 author = 'Yikun Zhang'
 
 release = '0.1'
-version = '0.0.9'
+version = '0.0.10'
 
 # -- General configuration
 
@@ -44,7 +44,7 @@ extensions = [
 # intersphinx_disabled_domains = ['std']
 
 napoleon_use_ivar = True
-autodoc_mock_imports = ['numpy']
+autodoc_mock_imports = ['numpy', 'scipy', 'sklearn', 'torch']
 templates_path = ['_templates']
 
 # List of patterns, relative to source directory, that match files and

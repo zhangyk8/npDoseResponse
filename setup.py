@@ -7,10 +7,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="npDoseResponse",
-    version="0.0.9",
+    version="0.0.10",
     author="Yikun Zhang",
     author_email="yikunzhang@foxmail.com",
-    description="Nonparametric Estimation and Inference on Dose-Response Curves",
+    description="Nonparametric Inference on Dose-Response Curve and its Derivative: With and Without Positivity",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/zhangyk8/npDoseResponse",
@@ -21,6 +21,6 @@ setuptools.setup(
     ],
     packages=setuptools.find_packages(),
     # packages=["npDoseResponse"],
-    install_requires=["numpy >= 1.16"],
+    install_requires=["numpy >= 1.16", "scipy", "scikit-learn", "torch"],
     python_requires=">=3.8",
 )

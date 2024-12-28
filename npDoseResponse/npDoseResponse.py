@@ -4,13 +4,14 @@
 # Last Editing: May 23, 2024
 
 # Description: This script contains the implementation of local polynomial regression 
-# as well as our proposed integral estimator and its localized derivative estimator.
+# as well as our proposed integral estimator and its localized derivative estimator 
+# (bias-corrected RA estimator) without the positivity condition.
 
 import numpy as np
 from .rbf import KernelRetrieval
 from multiprocessing import Pool
 from functools import partial
-from .utils import *
+from .utils import RoTBWLocalPoly, HatMatrix
 
 #=======================================================================================#
 
