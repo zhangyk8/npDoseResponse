@@ -3,7 +3,7 @@
 [![Downloads](https://static.pepy.tech/badge/npDoseResponse)](https://pepy.tech/project/npDoseResponse)
 [![Documentation Status](https://readthedocs.org/projects/npdoseresponse/badge/?version=latest)](http://npdoseresponse.readthedocs.io/?badge=latest)
 
-# Nonparametric Estimation and Inference on Dose-Response Curves
+# Nonparametric Inference on Dose-Response Curve and its Derivative
 
 This package implements the proposed integral estimator and a localized derivative estimator for estimating the covariate-adjusted regression function (or the dose-response curve in causal inference) and its derivative. We also document all the code for simulations and real-world case study in our paper [here](https://github.com/zhangyk8/NPDoseResponse/tree/main/Paper_Code).
 
