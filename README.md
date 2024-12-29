@@ -5,11 +5,11 @@
 
 # Nonparametric Inference on Dose-Response Curve and its Derivative
 
-This package implements the proposed integral estimator and a localized derivative estimator for estimating the covariate-adjusted regression function (or the dose-response curve in causal inference) and its derivative. We also document all the code for simulations and real-world case study in our paper [here](https://github.com/zhangyk8/NPDoseResponse/tree/main/Paper_Code).
+This package implements the proposed integral estimator and a localized derivative estimator for estimating the covariate-adjusted regression function (or the dose-response curve in causal inference) and its derivative. All the code for simulations and real-world applications in our papers are documented in [Paper 1](https://github.com/zhangyk8/NPDoseResponse/tree/main/Paper_Code) and [Paper 2](https://github.com/zhangyk8/npDRDeriv).
 
 * Free software: MIT license
 * Python Package Documentation: [https://npdoseresponse.readthedocs.io](https://npdoseresponse.readthedocs.io).
-* We also provide an R package [npDoseResponse](https://cran.r-project.org/package=npDoseResponse), though the Python package will be numerically stabler.
+* We also provide an R package [npDoseResponse](https://cran.r-project.org/package=npDoseResponse) for those estimators in [[1]](#npdoseresponse), though the Python package will be numerically stabler.
 
 Installation guide
 --------
@@ -30,3 +30,4 @@ References
 
 <a name="npdoseresponse">[1]</a> Y. Zhang, Y.-C. Chen, and A. Giessing (2024+) Nonparametric Inference on Dose-Response Curves Without the Positivity Condition [arXiv:2405.09003](https://arxiv.org/abs/2405.09003).
 
+<a name="npdrderiv">[2]</a> Y. Zhang and Y.-C. Chen (2025+) Nonparametric Doubly Robust Inference on Derivative of Dose-Response Curve: With and Without Positivity [arXiv:](https://arxiv.org/abs/).
