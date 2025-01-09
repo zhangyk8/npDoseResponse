@@ -30,4 +30,4 @@ References
 
 <a name="npdoseresponse">[1]</a> Y. Zhang, Y.-C. Chen, and A. Giessing (2024+) Nonparametric Inference on Dose-Response Curves Without the Positivity Condition [arXiv:2405.09003](https://arxiv.org/abs/2405.09003).
 
-<a name="npdrderiv">[2]</a> Y. Zhang and Y.-C. Chen (2025+) Nonparametric Doubly Robust Inference on Derivative of Dose-Response Curve: With and Without Positivity [arXiv:](https://arxiv.org/abs/).
+<a name="npdrderiv">[2]</a> Y. Zhang and Y.-C. Chen (2025+) Doubly Robust Inference on Causal Derivative Effects for Continuous Treatments [arXiv:](https://arxiv.org/abs/).
