@@ -20,7 +20,9 @@ The simulation on this linear confounding model is conducted in the Python scrip
 - **Nonlinear Confounding Model:**
 <img src="https://latex.codecogs.com/svg.latex?\large&space;Y=T^2+T+10Z+\epsilon,\quad\,T=\cos\left(\pi\,Z^3\right)+\frac{Z}{4}+E,\quad\,Z=4S_1+S_2,\quad\textbf{S}=(S_1,S_2)\sim\text{Uniform}[-1,1]^2\subset\mathbb{R}^2,\quad\,E\sim\text{Uniform}[-0.1,0.1],\quad\text{and}\quad\epsilon\sim\mathcal{N}(0,1)."/>
 
-The simulation on this linear confounding model is conducted in the Python script `Nonlinear_Effect_Model1.py`.
+The simulation on this nonlinear confounding model is conducted in the Python script `Nonlinear_Effect_Model1.py`.
+
+After running all the simulations above, one can synthesize the outputs through the Python script `Syn_PM25_App_Results.py`.
 
 ## Case Study: Effect of PM2.5 on Cardiovascular Mortality Rate (CMR)
 
