@@ -22,7 +22,7 @@ The simulation on this linear confounding model is conducted in the Python scrip
 
 The simulation on this nonlinear confounding model is conducted in the Python script `Nonlinear_Effect_Model1.py`.
 
-After running all the simulations above, one can synthesize the outputs through the Python script `Syn_PM25_App_Results.py`.
+After running all the simulations above, one can synthesize the outputs through the Python script `Syn_Sim_Results.py`.
 
 ## Case Study: Effect of PM2.5 on Cardiovascular Mortality Rate (CMR)
 
@@ -32,6 +32,7 @@ We apply our proposed estimators to analyzing the relationship between the PM2.5
 - Local quadratic regression of Y on T only: `PM25_App_Tonly.py`.
 - Our proposed estimators of regressing Y on T and spatial locations: `PM25_App_TS.py`.
 - Our proposed estimators of regressing Y on T and all the covariates (spatial locations + socioeconomic factors): `PM25_App_Full.py`.
+- Result synthesizing: `Syn_PM25_App_Results.py`.
 
 ## References
 
