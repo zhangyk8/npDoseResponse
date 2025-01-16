@@ -83,8 +83,10 @@ We propose the following bias-corrected IPW and DR estimators of :math:`\theta(t
 
  .. math::
  
-     \hat{\theta}_{\mathrm{C,IPW}}(t) = \frac{1}{nh^2} \sum_{i=1}^n \frac{Y_i\left(\frac{T_i-t}{h}\right) K\left(\frac{T_i-t}{h}\right) \hat{p}_{\zeta}(\textbf{S}_i|t)}{\kappa_2 \cdot \hat{p}(T_i,\textbf{S}_i)}
-     
+     \hat{\theta}_{\mathrm{C,IPW}}(t) = \frac{1}{nh^2} \sum_{i=1}^n \frac{Y_i\left(\frac{T_i-t}{h}\right) K\left(\frac{T_i-t}{h}\right) \hat{p}_{\zeta}(\textbf{S}_i|t)}{\kappa_2 \cdot \hat{p}(T_i,\textbf{S}_i)},
+
+ .. math::
+ 
      \hat{\theta}_{\mathrm{C,DR}}(t) = \frac{1}{nh^2} \sum_{i=1}^n \frac{\left(\frac{T_i-t}{h}\right) K\left(\frac{T_i-t}{h}\right) \hat{p}_{\zeta}(\textbf{S}_i|t)}{\kappa_2\cdot \hat{p}(T_i,\textbf{S}_i)} \left[Y_i - \hat{\mu}(t,\textbf{S}_i) - (T_i-t)\cdot \hat{\beta}(t,\textbf{S}_i)\right] + \int \hat{\beta}(t,\textbf{s})\cdot \hat{p}_{\zeta}(\textbf{s}|t)\, d\textbf{s},
 
 where :math:`\hat{p}(t,\textbf{s})` is a consistent estimator of the joint density :math:`p(t,\textbf{s})` and :math:`\hat{p}_{\zeta}(\textbf{s}|t)` is an estimated :math:`\zeta`-interior conditional density defined as:
