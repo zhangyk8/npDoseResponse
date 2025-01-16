@@ -1,53 +1,43 @@
 Methodology I (Basic Framework and RA Estimator Without Positivity)
 ===========
 
-Model Setup
+Identification
 ------------
 
-Consider a random sample :math:`\{(Y_i,T_i,\textbf{S}_i)\}_{i=1}^n \subset \mathbb{R}\times \mathbb{R} \times \mathbb{R}^d` generated from the following model:
+Let :math:`Y(t)` be the potential outcome that would have been observed under treatment level :math:`T=t`. Consider a random sample :math:`\{(Y_i,T_i,\textbf{S}_i)\}_{i=1}^n \subset \mathbb{R}\times \mathbb{R} \times \mathbb{R}^d`. We assume the following basic identification conditions.
 
-.. math::
+* **A1(a)** :math:`T_i=t` implies that :math:`Y_i=Y_i(t)`.
+* **A1(b)** :math:`Y_i(t)` is conditionally independent of :math:`T` given :math:`\textbf{S}`.
+* **A1(c)** The conditional variance of :math:`T` given any :math:`\textbf{S}=\textbf{s}` is strictly positive, i.e., :math:`\text{Var}(T|\textbf{S}=\textbf{s})>0`.
 
-    Y=\mu(T,\textbf{S})+\epsilon \quad \text{ and } \quad T=f(\textbf{S})+E,
+The above assumptions are generally insufficient to identify the dose-response curve :math:`m(t)=\mathbb{E}\left[Y(t)\right]` with observable data. The existing methods also assume the following positivity condition.
 
-where 
+* **(A0)** The conditional density :math:`p(t|\textbf{s})` is bounded above and away from zero almost surely for all :math:`t` and :math:`\textbf{s}`.
 
-* :math:`Y` is the outcome variable,
-* :math:`T` is the continuous treatment variable,
-* :math:`\textbf{S}` is a vector of covariates that incorporate confounding variables,
-* :math:`E\in\mathbb{R}` is the treatment variation with :math:`\mathbb{E}(E)=0` and :math:`E` being independent of :math:`\textbf{S}`,
-* :math:`\epsilon\in\mathbb{R}` is an exogenous noise variable with :math:`\mathbb{E}(\epsilon)=0, \mathrm{Var}(\epsilon)=\sigma^2>0,\mathrm{E}(\epsilon^4)<\infty`.
+Then, the (causal) dose-response curve :math:`t\mapsto m(t)=\mathbb{E}\left[Y(t)\right]` coincides with the covariate-adjusted regression function :math:`t\mapsto \mathbb{E}\left[\mu(t,\textbf{S})\right]` and can thus be identified from the observed data :math:`\{(Y_i,T_i,\textbf{S}_i)\}_{i=1}^n`. In addition, we can also identify the derivative effect :math:`\theta(t)=m'(t)=\frac{d}{dt}\mathbb{E}\left[\mu(t,\textbf{S})\right]`.
 
-Let :math:`Y(t)` be the potential outcome that would have been observed under treatment level :math:`T=t`. Under some identification conditions (see Section 2.2 in our paper [1]_), the (causal) dose-response curve :math:`t\mapsto m(t)=\mathbb{E}\left[Y(t)\right]` coincides with the covariate-adjusted regression function :math:`t\mapsto \mathbb{E}\left[\mu(t,\textbf{S})\right]` and can thus be identified from the observed data :math:`\{(Y_i,T_i,\textbf{S}_i)\}_{i=1}^n`. In addition, we also consider estimating the derivative effect :math:`\theta(t)=m'(t)=\frac{d}{dt}\mathbb{E}\left[\mu(t,\textbf{S})\right]`.
-
-Given the above identification formula, one traditional method for estimating the dose-response curve :math:`m(t)` is through the following regression adjustment (RA) or G-computation estimator
+Given the above identification formula, a traditional method for estimating the dose-response curve :math:`m(t)` is through the following regression adjustment (RA) or G-computation estimator
 
 .. math::
 
     \hat{m}_{RA}(t)  = \frac{1}{n}\sum_{i=1}^n \hat{\mu}(t,\textbf{S}_i),
 
-where :math:`\hat{\mu}(t,\textbf{s})` is any consistent estimator of the conditional mean outcome function :math:`\mu(t,\textbf{s})`. However, when the positivity condition does not hold, the regression adjustment estimator will be unstable and even inconsistent. This is because without the positivity condition, the joint density :math:`p(t,\textbf{S}_i)=p(t|\textbf{S}_i)\cdot p_S(\textbf{S}_i)` could be closer to 0 for some :math:`i=1,...,n`.
+where :math:`\hat{\mu}(t,\textbf{s})` is any consistent estimator of the conditional mean outcome function :math:`\mu(t,\textbf{s})=\mathbb{E}(Y|T=t,\textbf{S}=\textbf{s})`. 
 
 
-Key Insights and Proposed Estimators
-------------------------------------
-
-To bypass the strong positivity condition, we consider imposing the following key assumption:
+However, when the positivity condition is violated, the above RA estimator does not work and will be inconsistent for estimation as well. To address the identification issue without positivity, we assume that the function $\mathbb{E}\left[Y(t)|\bm{S}=\bm{s}\right]$ is continuously differentiable with respect to $t$ for any $(t,\bm{s})\in \mathcal{T}\times \mathcal{S}$ such that $p(\bm{s}|t)>0$, and the following equalities hold true:
 
 .. math::
 
-    \mathbb{E}\left[\mu(T,\textbf{S})\right]=\mathbb{E}\left[m(T)\right] \quad \text{ and } \quad \theta(t)=\mathbb{E}\left[\frac{\partial}{\partial t} \mu(t,\textbf{S})\right] 
-= \mathbb{E}\left[\frac{\partial}{\partial t} \mu(t,\textbf{S}) \Big|T=t\right].
+    \theta(t) = \mathbb{E}\left[\frac{\partial}{\partial t} \mathbb{E}\left[Y(t)|\textbf{S}\right]\right] = \mathbb{E}\left[\frac{\partial}{\partial t} \mathbb{E}\left[Y(t)|\textbf{S}\right]\Big|T=t\right].
 
-It can be verified that the additive confounding model with :math:`\mu(T,\textbf{S})=m(T)+\eta(\textbf{S})` satisfies the above two equalities.
+Together with Assumptions A1(a-c), we can identify the derivative :math:`\theta(t)` of the dose-response curve as:
 
-Under the above assumption, we construct our estimator of :math:`m(t)` from three critical insights:
+.. math::
 
-* **Insight 1:** :math:`\mu(t,\textbf{s})` and :math:`\frac{\partial}{\partial t}\mu(t,\textbf{s})` can be consistently estimated at each observation :math:`(T_i,\textbf{S}_i)` for :math:`i=1,...,n`.
+    \theta(t) = \mathbb{E}\left[\frac{\partial}{\partial t} \mathbb{E}\left[Y(t)|\textbf{S}\right]\Big|T=t\right] = \mathbb{E}\left[\frac{\partial}{\partial t} \mathbb{E}\left(Y|T=t,\textbf{S}\right)\Big|T=t\right] :=\theta_C(t).
 
-* **Insight 2:** :math:`\theta(t)` can be consistently estimated through the localized form :math:`\theta_C(t)=\mathbb{E}\left[\frac{\partial}{\partial t} \mu(t,\textbf{S}) \big|T=t\right]`.
-
-* **Insight 3:** By the fundamental theorem of calculus, we know that
+Once :math:`\theta(t)` is identifiable from observable data, we can refer the identification and estimation back to the dose-response curve :math:`m(t)` as follows. By the fundamental theorem of calculus, we know that
 
 .. math::
 
@@ -59,7 +49,13 @@ Under our key assumption, we can take the expectation on both sides of the above
 
     m(t) = \mathbb{E}\left[m(T) + \int_{\tilde{t}=T}^{\tilde{t}=t} \theta(\tilde{t})\, d\tilde{t}\right] =\mathbb{E}\left[\mu(T,\textbf{S})\right] + \mathbb{E}\left[\int_{\tilde{t}=T}^{\tilde{t}=t} \theta_C(\tilde{t})\, d\tilde{t}\right] = \mathbb{E}(Y) + \mathbb{E}\left\{\int_{\tilde{t}=T}^{\tilde{t}=t} \mathbb{E}\left[\frac{\partial}{\partial t}\mu(\tilde{t},\textbf{S})\Big|T=\tilde{t}\right] \, d\tilde{t}\right\}
 
-Based on the above three insights, we thus propose an *integral estimator* of the dose-response curve :math:`m(t)` as:
+All the quantities on the right-hand of the above equation are identifiable from the observed data :math:`\{(Y_i,T_i,\textbf{S}_i)\}_{i=1}^n` even without the positivity condition.
+
+
+Estimation and Inference
+------------------------------------
+
+Based on our identification strategies without positivity, we thus propose an *integral estimator* of the dose-response curve :math:`m(t)` as:
 
 .. math::
 
