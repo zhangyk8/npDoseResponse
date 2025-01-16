@@ -57,16 +57,15 @@ Furthermore,
 
 .. math::
 
-    \sqrt{nh^3}\left[\hat{\theta}_{\mathrm{DR}}(t) - \theta(t) - h^2 B_{\theta}(t)\right] \stackrel{d}{\to} \mathcal{N}\left(0,V_{\theta}(t)\right).
+    \sqrt{nh^3}\left[\hat{\theta}_{\mathrm{DR}}(t) - \theta(t) - h^2 B_{\theta}(t)\right] \stackrel{d}{\to} \mathcal{N}\left(0,V_{\theta}(t)\right),
     
- By choosing a bandwidth with a standard rate of convergence :math:`h=O\left(n^{-1/5}\right)`, we can construct a :math:`(1-\alpha)`-level confidence interval for :math:`\theta(t)` as:
+where :math:`B_{\theta}(t)` is a bias term. By choosing a bandwidth with a standard rate of convergence :math:`h=O\left(n^{-1/5}\right)`, we can construct a :math:`(1-\alpha)`-level confidence interval for :math:`\theta(t)` as:
  
  .. math::
      
-     \left[\hat{\theta}_{\mathrm{DR}}(t)- \Phi\left(1-\frac{\alpha}{2}\right)\sqrt{\frac{\hat{V}_{\theta}(t)}{nh^3}}, \hat{\theta}_{\mathrm{DR}}(t)+ \Phi\left(1-\frac{\alpha}{2}\right)\sqrt{\frac{\hat{V}_{\theta}(t)}{nh^3}}\right],
+     \left[\hat{\theta}_{\mathrm{DR}}(t)- \Phi\left(1-\frac{\alpha}{2}\right)\sqrt{\frac{\hat{V}_{\theta}(t)}{nh^3}},\; \hat{\theta}_{\mathrm{DR}}(t)+ \Phi\left(1-\frac{\alpha}{2}\right)\sqrt{\frac{\hat{V}_{\theta}(t)}{nh^3}}\right],
 
-
-where :math:`\Phi(\cdot)` is the cumulative distribution function of :math:`\mathcal{N}(0,1)` and :math:`\frac{\hat{V}_{\theta}(t)` is computed as:
+where :math:`\Phi(\cdot)` is the cumulative distribution function of :math:`\mathcal{N}(0,1)` and :math:`\hat{V}_{\theta}(t)` is computed as:
 
  .. math::
  
@@ -78,7 +77,7 @@ with :math:`\phi_{h,t}\left(Y,T,\textbf{S}; \bar{\mu},\bar{\beta}, \bar{p}_{T|\t
 Identification and Estimation Without Positivity
 ------------
 
-To study the IPW and DR estimators without relying on the positivity condition, we impose an additive structural assumption on the potential outcome as :math:`Y(t) = \bar{m}(t) + \eta(\bm{S}) +\epsilon`. The identification theory in Section 2 of [1]_ implies that both the dose-response curve :math:`m(t)` and its derivative :math:`\theta(t)` are identifiable even under violations of positivity. However, the aforementioned IPW and DR estimators are indeed biased without positivity even when the additive structural assumption holds true; see Section 4.2 in [2]_.
+To study the IPW and DR estimators without relying on the positivity condition, we impose an additive structural assumption on the potential outcome as :math:`Y(t) = \bar{m}(t) + \eta(\textbf{S}) +\epsilon`. The identification theory in Section 2 of [1]_ implies that both the dose-response curve :math:`m(t)` and its derivative :math:`\theta(t)` are identifiable even under violations of positivity. However, the aforementioned IPW and DR estimators are indeed biased without positivity even when the additive structural assumption holds true; see Section 4.2 in [2]_.
 
 We propose the following bias-corrected IPW and DR estimators of :math:`\theta(t)` as:
 
@@ -92,10 +91,23 @@ where :math:`\hat{p}(t,\textbf{s})` is a consistent estimator of the joint densi
 
 .. math::
 
-    p_{\zeta}(\textbf{s}|t) = \frac{p_{\textbf{S}|T}(\textbf{s}|t) \cdot \mathbbm{1}_{\left\{\textbf{s}\in \mathcal{L}_{\zeta}(t)\right\}}}{\int_{\mathcal{L}_{\zeta}(t)} p_{\textbf{S}|T}(\textbf{s}_1|t) \,d\textbf{s}_1},
+    p_{\zeta}(\textbf{s}|t) = \frac{p_{\textbf{S}|T}(\textbf{s}|t) \cdot \mathbb{1}_{\left\{\textbf{s}\in \mathcal{L}_{\zeta}(t)\right\}}}{\int_{\mathcal{L}_{\zeta}(t)} p_{\textbf{S}|T}(\textbf{s}_1|t) \,d\textbf{s}_1},
     
 with :math:`\mathcal{L}_{\zeta}(t) = \left\{\textbf{s}\in \mathcal{S}(t): p_{\textbf{S}|T}(\textbf{s}|t) \geq \zeta\right\}` being the :math:`\zeta`-upper level set of the conditional density :math:`p_{\textbf{S}|T}(\textbf{s}|t)`.
 
+It can be proved that
+
+.. math::
+
+    \sqrt{nh^3}\left[\hat{\theta}_{\mathrm{C,DR}}(t) - \theta(t) - h^2 B_{C,\theta}(t)\right] \stackrel{d}{\to} \mathcal{N}\left(0,V_{C,\theta}(t)\right),
+    
+where :math:`B_{C,\theta}(t)` is a bias term. By choosing a bandwidth with a standard rate of convergence :math:`h=O\left(n^{-1/5}\right)`, we can construct a :math:`(1-\alpha)`-level confidence interval for :math:`\theta(t)` as before, in which the asymptotic variance is estimated by
+
+.. math::
+
+    \hat{V}_{C,\theta}(t) = \frac{1}{n} \sum_{i=1}^n \left\{\phi_{C,h,t}\left(Y_i,T_i,\textbf{S}_i;\hat{\mu}, \hat{\beta}, \hat{p}, \hat{p}_{\zeta}\right) + \sqrt{h^3}\left[\int \hat{\beta}(t,\textbf{s}) \cdot \hat{p}_{\zeta}(\textbf{s}|t)\, d\textbf{s} - \hat{\theta}_{\mathrm{C,DR}}(t) \right]\right\}^2,
+    
+where :math:`\phi_{C,h,t}\left(Y,T,\textbf{S}; \bar{\mu},\bar{\beta}, \bar{p},\bar{p}_{\zeta}\right) = \frac{\left(\frac{T-t}{h}\right) K\left(\frac{T-t}{h}\right) \cdot \bar{p}_{\zeta}(\textbf{S}|t)}{\sqrt{h}\cdot \kappa_2\cdot \bar{p}(T,\textbf{S})}\cdot \left[Y - \bar{\mu}(t,\textbf{S}) - (T-t)\cdot \bar{\beta}(t,\textbf{S})\right]`.
 
 References
 ----------
