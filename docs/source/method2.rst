@@ -111,6 +111,8 @@ where :math:`B_{C,\theta}(t)` is a bias term. By choosing a bandwidth with a sta
     
 where :math:`\phi_{C,h,t}\left(Y,T,\textbf{S}; \bar{\mu},\bar{\beta}, \bar{p},\bar{p}_{\zeta}\right) = \frac{\left(\frac{T-t}{h}\right) K\left(\frac{T-t}{h}\right) \cdot \bar{p}_{\zeta}(\textbf{S}|t)}{\sqrt{h}\cdot \kappa_2\cdot \bar{p}(T,\textbf{S})}\cdot \left[Y - \bar{\mu}(t,\textbf{S}) - (T-t)\cdot \bar{\beta}(t,\textbf{S})\right]`.
 
+The integral bias-corrected IPW and DR estimators for :math:`m(t)` are also delineated in Appendix I of [2]_.
+
 References
 ----------
 
