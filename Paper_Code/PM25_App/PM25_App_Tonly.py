@@ -30,9 +30,9 @@ Y = dat['CMR'].values
 # Estimate the dose-response curve and its derivative 
 t_qry = np.linspace(min(T)+0.01, max(T)-0.01, 200)
 
-m_est = LocalPolyReg1D(Y, T, h=7*np.std(T), x_eval=t_qry, degree=1, deriv_ord=0, kernel='epanechnikov')
+m_est = LocalPolyReg1D(Y, T, h=16*np.std(T), x_eval=t_qry, degree=2, deriv_ord=0, kernel='epanechnikov')
 
-theta_est = LocalPolyReg1D(Y, T, h=7*np.std(T), x_eval=t_qry, degree=2, deriv_ord=1, kernel='epanechnikov')
+theta_est = LocalPolyReg1D(Y, T, h=16*np.std(T), x_eval=t_qry, degree=2, deriv_ord=1, kernel='epanechnikov')
 
 # Bootstrap the original data
 np.random.seed(job_id)
@@ -48,5 +48,5 @@ theta_est_boot = LocalPolyReg1D(Y_boot, T_boot, h=7*np.std(T_boot), x_eval=t_qry
                             deriv_ord=1, kernel='epanechnikov')
 
 
-with open('./Results_New/PM25_App_Tonly_Bootstrap_'+str(job_id)+'_new2.dat', "wb") as file:
+with open('./Results_New/PM25_App_Tonly_Bootstrap_'+str(job_id)+'_new_bw.dat', "wb") as file:
     pickle.dump([theta_est, m_est, theta_est_boot, m_est_boot], file)

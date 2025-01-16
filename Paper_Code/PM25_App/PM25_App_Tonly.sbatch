@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name pm25_app_tonly     # Set a name for your job. This is especially useful if you have multiple jobs queued.
-#SBATCH --partition medium         # Slurm partition to use
+#SBATCH --partition short         # Slurm partition to use
 #SBATCH --array=1-1000               # How many tasks in the array
 #SBATCH --time 0-11:40             # Wall time limit in D-HH:MM
 #SBATCH --mem-per-cpu=2000           # Memory limit for each tasks (in MB)
