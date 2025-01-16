@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Author: Yikun Zhang
-# Last Editing: May 19, 2024
+# Last Editing: January 15, 2025
 
 # Description: This script contains the utility functions for the main functions 
 # in our package.
@@ -14,7 +14,7 @@ from sklearn.preprocessing import PolynomialFeatures
 #=======================================================================================#
 
 
-def RoTBWLocalPoly(Y, X, kernT="epanechnikov", kernS="epanechnikov", C_h=7, C_b=3):
+def RoTBWLocalPoly(Y, X, kernT="epanechnikov", kernS="epanechnikov", C_h=10, C_b=15):
     '''
     Compute the rule-of-thumb bandwidth selector in Eq.(A1) of 
     Yang and Tschernig (1999).
@@ -60,7 +60,8 @@ def RoTBWLocalPoly(Y, X, kernT="epanechnikov", kernS="epanechnikov", C_h=7, C_b=
     resid = np.sum((Y - np.dot(lhs, beta))**2) * (np.max(X[:,0]) - np.min(X[:,0]))/ (n-5)
     sigmaK_sq = sigmaK_sq**2
     # ROT
-    h = ((K_sq*resid)/(4*n*sigmaK_sq*C_fun))**(1/5) * (n**(d/(5*(d+5)))) * C_h
+    # h = ((K_sq*resid)/(4*n*sigmaK_sq*C_fun))**(1/5) * (n**(d/(5*(d+5)))) * C_h
+    h = ((K_sq*resid)/(4*n*sigmaK_sq*C_fun))**(1/5) * C_h
     
     kernS, sigmaK_sq, K_sq = KernelRetrieval(kernS)
     sec_deriv = np.zeros((n, d))
@@ -76,7 +77,8 @@ def RoTBWLocalPoly(Y, X, kernT="epanechnikov", kernS="epanechnikov", C_h=7, C_b=
     resid = np.sum((Y - np.dot(lhs, beta))**2) * (np.max(X[:,1:], axis=0) - np.min(X[:,1:], axis=0)) / (n-5)
     sigmaK_sq = sigmaK_sq**2
     K_sq = K_sq**d
-    b = ((K_sq*d*resid)/(4*n*sigmaK_sq*C_fun))**(1/(d+5)) * C_b
+    # b = ((K_sq*d*resid)/(4*n*sigmaK_sq*C_fun))**(1/(d+5)) * C_b
+    b = ((K_sq*d*resid)/(4*sigmaK_sq*C_fun))**(1/(d+5)) * n**(-1/(d+1)) * C_b
     
     return h, b
 
