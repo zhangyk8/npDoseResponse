@@ -1,7 +1,7 @@
 Welcome to the documentation of "npDoseResponse"!
 ===================================
 
-**npDoseResponse** is a Python library for estimating and conducting valid inference on a (causal) dose-response curve and its derivative function via novel integral and localized derivative estimators. We also provide the inverse probability weighting and doubly robust estimators of the dose-response curve and its derivative function with and without the positivity condition.
+**npDoseResponse** is a Python library for estimating and conducting valid inference on a (causal) dose-response curve and its derivative function via novel integral and localized derivative estimators. It also provides the regression adjustment (RA), inverse probability weighting (IPW) and doubly robust (DR) estimators of the dose-response curve and its derivative function with and without the positivity condition, as described in [2]_.
 
 A Preview into the Proposed Methodology
 ------------
