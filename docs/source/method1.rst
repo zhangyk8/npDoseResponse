@@ -25,7 +25,7 @@ Given the above identification formula, a traditional method for estimating the 
 where :math:`\hat{\mu}(t,\textbf{s})` is any consistent estimator of the conditional mean outcome function :math:`\mu(t,\textbf{s})=\mathbb{E}(Y|T=t,\textbf{S}=\textbf{s})`. 
 
 
-However, when the positivity condition is violated, the above RA estimator does not work and will be inconsistent for estimation as well. To address the identification issue without positivity, we assume that the function :math:`\mathbb{E}\left[Y(t)|\textbf{S}=\textbf{s}\right]` is continuously differentiable with respect to :math:`t` for any :math:`(t,\textbf{s})` such that $p(\textbf{s}|t)>0$, and the following equalities hold true:
+However, when the positivity condition is violated, the above RA estimator does not work and will be inconsistent for estimation as well. To address the identification issue without positivity, we assume that the function :math:`\mathbb{E}\left[Y(t)|\textbf{S}=\textbf{s}\right]` is continuously differentiable with respect to :math:`t` for any :math:`(t,\textbf{s})` such that :math:`p(\textbf{s}|t)>0`, and the following equalities hold true:
 
 .. math::
 
