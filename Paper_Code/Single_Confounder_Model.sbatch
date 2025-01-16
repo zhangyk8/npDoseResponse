@@ -2,7 +2,7 @@
 #SBATCH --job-name sing_conf       # Set a name for your job. This is especially useful if you have multiple jobs queued.
 #SBATCH --partition medium         # Slurm partition to use
 #SBATCH --array=1-1000               # How many tasks in the array
-#SBATCH --time 3-11:10             # Wall time limit in D-HH:MM
+#SBATCH --time 4-11:10             # Wall time limit in D-HH:MM
 #SBATCH --mem-per-cpu=2000           # Memory limit for each tasks (in MB)
 #SBATCH -o out/sing_conf_%j.out        # File to which STDOUT will be written
 #SBATCH -e out/sing_conf_%j.err        # File to which STDERR will be written

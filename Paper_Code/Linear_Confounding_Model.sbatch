@@ -1,5 +1,4 @@
 #!/bin/bash
-#SBATCH --exclude cls-cmp-e6-6
 #SBATCH --job-name linear_conf       # Set a name for your job. This is especially useful if you have multiple jobs queued.
 #SBATCH --partition medium         # Slurm partition to use
 #SBATCH --array=1-1000               # How many tasks in the array
