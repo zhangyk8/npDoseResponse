@@ -5,7 +5,7 @@
 
 # Nonparametric Inference on Dose-Response Curve and its Derivative
 
-This package implements the proposed integral estimator and a localized derivative estimator for estimating the covariate-adjusted regression function (or the dose-response curve in causal inference) and its derivative. All the code for simulations and real-world applications in our papers are documented in [Paper 1](https://github.com/zhangyk8/NPDoseResponse/tree/main/Paper_Code) and [Paper 2](https://github.com/zhangyk8/npDRDeriv).
+This package provides the implementation of estimating and conducting valid inference on the covariate-adjusted regression function (or the dose-response curve in causal inference) and its derivative through the proposed integral estimator and a localized derivative estimator in [[1]](#npdoseresponse). It also implements the regression adjustment (RA), inverse probability weighting (IPW) and doubly robust (DR) estimators of the dose-response curve and its derivative function with and without the positivity condition in [[2]](#npdrderiv). All the code for simulations and real-world applications in our papers are documented in [Paper 1](https://github.com/zhangyk8/NPDoseResponse/tree/main/Paper_Code) and [Paper 2](https://github.com/zhangyk8/npDRDeriv).
 
 * Free software: MIT license
 * Python Package Documentation: [https://npdoseresponse.readthedocs.io](https://npdoseresponse.readthedocs.io).
