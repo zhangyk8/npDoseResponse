@@ -40,6 +40,30 @@ for n in [500, 1000, 2000, 5000]:
     with open('./Syn_Results/Single_Conf_new_bw_n'+str(n)+'.dat', "wb") as file:
         pickle.dump([theta_est1, m_est1, Y_RA1, Y_RA_deriv1, 
                      theta_est_boot_arr1, m_est_boot_arr1, Y_RA_deriv_boot_arr1, Y_RA_boot_arr1], file)
+    
+    m_gam_boot = []
+    m_gam_boot_tune = []
+    theta_gam_boot = []
+    theta_gam_boot_tune = []
+    for b in range(1, B+1):
+        if b == 1:
+            with open('./Results_New/Single_Conf_GAM_'+str(b)+'_n'+str(n)+'.dat', "rb") as file:
+                m_est, m_est_tune, theta_est, theta_est_tune, m_est_boot, m_est_boot_tune, theta_est_boot, theta_est_boot_tune = pickle.load(file)
+        else:
+            with open('./Results_New/Single_Conf_GAM_'+str(b)+'_n'+str(n)+'.dat', "rb") as file:
+                m_est_boot, m_est_boot_tune, theta_est_boot, theta_est_boot_tune = pickle.load(file)
+        m_gam_boot.append(m_est_boot)
+        m_gam_boot_tune.append(m_est_boot_tune)
+        theta_gam_boot.append(theta_est_boot)
+        theta_gam_boot_tune.append(theta_est_boot_tune)
+    m_gam_boot = np.array(m_gam_boot)
+    m_gam_boot_tune = np.array(m_gam_boot_tune)
+    theta_gam_boot = np.array(theta_gam_boot)
+    theta_gam_boot_tune = np.array(theta_gam_boot_tune)
+    
+    with open('./Syn_Results/Single_Conf_GAM_n'+str(n)+'.dat', "wb") as file:
+        pickle.dump([m_est, m_est_tune, theta_est, theta_est_tune, 
+                     m_gam_boot, m_gam_boot_tune, theta_gam_boot, theta_gam_boot_tune], file)
         
         
 
@@ -99,3 +123,27 @@ for n in [500, 1000, 2000, 5000]:
     with open('./Syn_Results/Nonlinear_Eff_new_bw_n'+str(n)+'.dat', "wb") as file:
         pickle.dump([theta_est, m_est, Y_RA, Y_RA_deriv, 
                      theta_est_boot_arr, m_est_boot_arr, Y_RA_deriv_boot_arr, Y_RA_boot_arr], file)
+    
+    m_gam_boot = []
+    m_gam_boot_tune = []
+    theta_gam_boot = []
+    theta_gam_boot_tune = []
+    for b in range(1, B+1):
+        if b == 1:
+            with open('./Results_New/Nonlinear_Eff_GAM_'+str(b)+'_n'+str(n)+'.dat', "rb") as file:
+                m_est, m_est_tune, theta_est, theta_est_tune, m_est_boot, m_est_boot_tune, theta_est_boot, theta_est_boot_tune = pickle.load(file)
+        else:
+            with open('./Results_New/Nonlinear_Eff_GAM_'+str(b)+'_n'+str(n)+'.dat', "rb") as file:
+                m_est_boot, m_est_boot_tune, theta_est_boot, theta_est_boot_tune = pickle.load(file)
+        m_gam_boot.append(m_est_boot)
+        m_gam_boot_tune.append(m_est_boot_tune)
+        theta_gam_boot.append(theta_est_boot)
+        theta_gam_boot_tune.append(theta_est_boot_tune)
+    m_gam_boot = np.array(m_gam_boot)
+    m_gam_boot_tune = np.array(m_gam_boot_tune)
+    theta_gam_boot = np.array(theta_gam_boot)
+    theta_gam_boot_tune = np.array(theta_gam_boot_tune)
+    
+    with open('./Syn_Results/Nonlinear_Eff_GAM_n'+str(n)+'.dat', "wb") as file:
+        pickle.dump([m_est, m_est_tune, theta_est, theta_est_tune, 
+                     m_gam_boot, m_gam_boot_tune, theta_gam_boot, theta_gam_boot_tune], file)
