@@ -74,7 +74,6 @@ of a dose-response curve via Nadaraya-Watson conditional CDF estimator.
 }
 \examples{
 \donttest{
-  library(parallel)
   set.seed(123)
   n <- 300
 
@@ -98,7 +97,7 @@ of a dose-response curve via Nadaraya-Watson conditional CDF estimator.
                            kernT_bar = "gaussian", h = NULL, b = NULL,
                            C_h = 7, C_b = 3, print_bw = FALSE,
                            degree = 2, deriv_ord = 1, kernT = "epanechnikov",
-                           kernS = "epanechnikov", parallel = TRUE, cores = num_workers)
+                           kernS = "epanechnikov", parallel = FALSE, cores = num_workers)
   plot(t_qry2, theta_est2, type="l", col = "blue", xlab = "t", lwd=5,
        ylab="(Estimated) derivative effects")
   lines(t_qry2, 2*t_qry2 + 1, col = "red", lwd=3)

@@ -69,13 +69,13 @@
 #'     # use all cores in devtools::test()
 #'     num_workers <- parallel::detectCores()
 #'   }
-#' }
-#' \dontrun{
-#'   m_boot2 = IntegEstBoot(Y2, X2, t_eval = t_qry2, boot_num = 500, alpha=0.95,
+#'
+#'   # Increase bootstrap times "boot_num" to a larger integer in practice
+#'   m_boot2 = IntegEstBoot(Y2, X2, t_eval = t_qry2, boot_num = 3, alpha=0.95,
 #'                         h_bar = NULL, kernT_bar = "gaussian", h = NULL, b = NULL,
 #'                         C_h = 7, C_b = 3, print_bw = FALSE, degree = 2,
 #'                         deriv_ord = 1, kernT = "epanechnikov", kernS = "epanechnikov",
-#'                         parallel = TRUE, cores = num_workers)
+#'                         parallel = FALSE, cores = num_workers)
 #' }
 #'
 #' @export
@@ -89,6 +89,13 @@ IntegEstBoot <- function(Y, X, t_eval = NULL, boot_num = 500, alpha=0.95,
                          kernS = "epanechnikov", parallel = TRUE, cores = 4) {
   if (is.null(t_eval)) {
     t_eval <- X[, 1]
+  }
+
+  if (parallel) {
+    chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
+    if (nzchar(chk) && chk == "TRUE") {
+      cores <- min(cores, 2L)
+    }
   }
 
   m_est <- IntegEst(Y, X, t_eval = t_eval, h_bar = h_bar, kernT_bar = kernT_bar,

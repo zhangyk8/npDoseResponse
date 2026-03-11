@@ -65,7 +65,7 @@
 #'   m_est2 = IntegEst(Y2, X2, t_eval = t_qry2, h_bar = NULL, kernT_bar = "gaussian",
 #'                     h = NULL, b = NULL, C_h = 7, C_b = 3, print_bw = FALSE,
 #'                     degree = 2, deriv_ord = 1, kernT = "epanechnikov",
-#'                     kernS = "epanechnikov", parallel = TRUE, cores = num_workers)
+#'                     kernS = "epanechnikov", parallel = FALSE, cores = num_workers)
 #'
 #'   plot(t_qry2, m_est2, type="l", col = "blue", xlab = "t", lwd=5,
 #'        ylab="(Estimated) dose-response curves")
@@ -83,6 +83,13 @@ IntegEst <- function(Y, X, t_eval = NULL, h_bar = NULL, kernT_bar = "gaussian",
                      kernS = "epanechnikov", parallel = TRUE, cores = 6) {
   if (is.null(t_eval)) {
     t_eval <- X[, 1]
+  }
+
+  if (parallel) {
+    chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
+    if (nzchar(chk) && chk == "TRUE") {
+      cores <- min(cores, 2L)
+    }
   }
 
   T_sort <- sort(X[, 1])

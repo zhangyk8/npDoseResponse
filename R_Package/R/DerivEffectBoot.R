@@ -69,13 +69,12 @@
 #'     # use all cores in devtools::test()
 #'     num_workers <- parallel::detectCores()
 #'   }
-#' }
-#' \dontrun{
-#'   theta_boot2 = DerivEffectBoot(Y2, X2, t_eval = t_qry2, boot_num = 500, alpha = 0.95,
+#'   # Increase bootstrap times "boot_num" to a larger integer in practice
+#'   theta_boot2 = DerivEffectBoot(Y2, X2, t_eval = t_qry2, boot_num = 3, alpha = 0.95,
 #'                                h_bar = NULL, kernT_bar = "gaussian", h = NULL,
 #'                                b = NULL, C_h = 7, C_b = 3, print_bw = FALSE,
 #'                                degree = 2, deriv_ord = 1, kernT = "epanechnikov",
-#'                                kernS = "epanechnikov", parallel = TRUE,
+#'                                kernS = "epanechnikov", parallel = FALSE,
 #'                                cores = num_workers)
 #' }
 #'
@@ -90,6 +89,13 @@ DerivEffectBoot <- function(Y, X, t_eval = NULL, boot_num = 500, alpha = 0.95,
                             kernS = "epanechnikov", parallel = TRUE, cores = 6) {
   if (is.null(t_eval)) {
     t_eval <- X[, 1]
+  }
+
+  if (parallel) {
+    chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
+    if (nzchar(chk) && chk == "TRUE") {
+      cores <- min(cores, 2L)
+    }
   }
 
   n <- nrow(X)

@@ -104,13 +104,13 @@ dose-response curve via our integral estimator.
     # use all cores in devtools::test()
     num_workers <- parallel::detectCores()
   }
-}
-\dontrun{
-  m_boot2 = IntegEstBoot(Y2, X2, t_eval = t_qry2, boot_num = 500, alpha=0.95,
+
+  # Increase bootstrap times "boot_num" to a larger integer in practice
+  m_boot2 = IntegEstBoot(Y2, X2, t_eval = t_qry2, boot_num = 3, alpha=0.95,
                         h_bar = NULL, kernT_bar = "gaussian", h = NULL, b = NULL,
                         C_h = 7, C_b = 3, print_bw = FALSE, degree = 2,
                         deriv_ord = 1, kernT = "epanechnikov", kernS = "epanechnikov",
-                        parallel = TRUE, cores = num_workers)
+                        parallel = FALSE, cores = num_workers)
 }
 
 }

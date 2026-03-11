@@ -89,7 +89,7 @@ polynomial regression.
   Y_RA2 = RegAdjust(Y2, X2, t_eval = t_qry2, h = NULL, b = NULL, C_h = 7, C_b = 3,
                     print_bw = FALSE, degree = 2, deriv_ord = 0,
                     kernT = "epanechnikov", kernS = "epanechnikov",
-                    parallel = TRUE, cores = num_workers)
+                    parallel = FALSE, cores = num_workers)
 }
 
 }
